@@ -3,31 +3,55 @@ using SM.Infrastructre.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+#region Base services
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+#endregion
+
+#region Layer services
 
 builder.Services.AddCoreServices();
 builder.Services.AddInfrastructreServices();
 
+#endregion
+
+#region Cors
+builder.Services.AddCors(cors => cors.AddPolicy("Member", policy =>
+    policy.AllowCredentials()
+          .AllowAnyHeader()
+          .AllowAnyMethod()
+          .WithOrigins(builder.Configuration["CORS:AllowedOrigins"].Split(";"))));
+#endregion
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+#region Development
+
+if(app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+#endregion
+
+
+#region Middlewares
 
 app.MapGet("/", async context =>
 {
     await context.Response.WriteAsync("Welcome to Small.");
 });
 
+app.UseCors("Member");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+#endregion
+
+
 app.Run();
