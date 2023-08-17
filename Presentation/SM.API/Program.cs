@@ -14,7 +14,7 @@ builder.Services.AddSwaggerGen();
 #region Layer services
 
 builder.Services.AddCoreServices();
-builder.Services.AddInfrastructreServices();
+builder.Services.AddInfrastructreServices(builder.Configuration);
 
 #endregion
 
@@ -48,6 +48,7 @@ app.MapGet("/", async context =>
 
 app.UseCors("Member");
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
