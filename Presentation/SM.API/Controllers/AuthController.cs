@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Auth.Login;
+using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
 
 namespace SM.API.Controllers
@@ -51,6 +52,30 @@ namespace SM.API.Controllers
         {
             return Ok(ApiResponse<object>.Successful(null, "Your identity is successful."));
         }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken(RefreshTokenRequest? refreshTokenRequest)
+        {
+            #region Read cookie for refresh token
+
+            if (refreshTokenRequest == null || String.IsNullOrEmpty(refreshTokenRequest.RefreshToken))
+            {
+                string refreshToken = HttpContext.Request.Cookies.FirstOrDefault(cookie => cookie.Key == "refreshToken").Value;
+
+                if (String.IsNullOrEmpty(refreshToken))
+                    return Unauthorized(ApiResponse<object>.Successful(null, "You are not authenticated."));
+
+                else
+                    refreshTokenRequest = new RefreshTokenRequest(){RefreshToken = refreshToken};
+            }
+
+            #endregion
+
+            ApiResponse<RefreshTokenResponse> apiResponse = await _mediator.Send(refreshTokenRequest);
+            AddRefreshTokenToCookie(apiResponse.Data.Expiration, apiResponse.Data.RefreshToken);
+            return Ok(apiResponse);
+        }
+
 
         private void AddRefreshTokenToCookie(DateTime expiration, string refreshToken)
         {
