@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Auth.Login;
@@ -41,6 +42,14 @@ namespace SM.API.Controllers
             }
             else
                 return BadRequest(apiResponse);
+        }
+
+        [HttpGet]
+        [Route("verify")]
+        [Authorize]
+        public async Task<IActionResult> Verify()
+        {
+            return Ok(ApiResponse<object>.Successful(null, "Your identity is successful."));
         }
 
         private void AddRefreshTokenToCookie(DateTime expiration, string refreshToken)
