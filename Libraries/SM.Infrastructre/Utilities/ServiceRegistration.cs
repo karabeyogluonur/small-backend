@@ -7,8 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SM.Core.Domain;
 using SM.Core.Interfaces.Repositores;
+using SM.Core.Interfaces.Services.Auth;
+using SM.Core.Interfaces.Services.Membership;
 using SM.Infrastructre.Persistence.Contexts;
 using SM.Infrastructre.Persistence.Repositories;
+using SM.Infrastructre.Services.Auth;
+using SM.Infrastructre.Services.Membership;
 using System.Text;
 
 namespace SM.Infrastructre.Utilities
@@ -85,6 +89,14 @@ namespace SM.Infrastructre.Utilities
 
                 };
             });
+
+            #endregion
+
+            #region Services
+
+            services.AddTransient<ITokenService, TokenService>();
+            services.AddTransient<IAuthService,AuthService>();
+            services.AddTransient<IUserService,UserService>();
 
             #endregion
         }

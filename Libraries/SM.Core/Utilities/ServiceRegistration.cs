@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using SM.Core.Mappers.AutoMapper;
 
 namespace SM.Core.Utilities
 {
@@ -10,7 +11,13 @@ namespace SM.Core.Utilities
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(ServiceRegistration).Assembly));
 
-            #endregion 
+            #endregion
+
+            #region Automapper
+
+            services.AddAutoMapper(typeof(AutoMapperProfile));
+
+            #endregion
         }
     }
 }
