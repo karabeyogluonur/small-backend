@@ -2,6 +2,7 @@
 using SM.Core.Domain;
 using SM.Core.DTOs.Auth;
 using SM.Core.Features.Auth.Login;
+using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace SM.Core.Mappers.AutoMapper
             CreateMap<TokenDTO, LoginResponse>().ReverseMap();
             CreateMap<TokenDTO, RegisterResponse>().ReverseMap();
             CreateMap<RegisterRequest, ApplicationUser>().ReverseMap();
+            CreateMap<TokenDTO, RefreshTokenResponse>().ReverseMap();
         }
     }
 }

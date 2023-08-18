@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SM.Core.Common.Exceptions;
 using SM.Core.Domain;
 using SM.Core.DTOs.Auth;
@@ -26,6 +27,18 @@ namespace SM.Infrastructre.Services.Auth
             _signInManager = signInManager;
             _tokenService = tokenService;
             _userService = userService;
+        }
+
+        public async Task<TokenDTO> RefreshTokenSignInAsync(string refreshToken)
+        {
+            ApplicationUser applicationUser = await _userManager.Users.FirstOrDefaultAsync(user => user.RefreshToken == refreshToken);
+
+            if (applicationUser == null)
+                throw new UserNotFoundException();
+
+            TokenDTO tokenDTO = _tokenService.CreateToken(applicationUser);
+            await _userService.UpdateRefreshTokenAsync(applicationUser, tokenDTO.RefreshToken);
+            return tokenDTO;
         }
 
         public async Task<IdentityResult> RegisterAsync(ApplicationUser applicationUser, string password)
