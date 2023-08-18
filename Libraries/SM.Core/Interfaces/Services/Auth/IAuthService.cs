@@ -1,4 +1,7 @@
-﻿using SM.Core.DTOs.Auth;
+﻿using Microsoft.AspNetCore.Identity;
+using SM.Core.Domain;
+using SM.Core.DTOs.Auth;
+using SM.Core.Features.Auth.Register;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +13,6 @@ namespace SM.Core.Interfaces.Services.Auth
     public interface IAuthService
     {
         Task<TokenDTO> SignInAsync(string email, string password);
+        Task<IdentityResult> RegisterAsync(ApplicationUser applicationUser,string password);
     }
 }
