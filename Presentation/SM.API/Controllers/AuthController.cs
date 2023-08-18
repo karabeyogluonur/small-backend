@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Auth.Login;
+using SM.Core.Features.Auth.Register;
 
 namespace SM.API.Controllers
 {
@@ -26,6 +27,20 @@ namespace SM.API.Controllers
             AddRefreshTokenToCookie(apiResponse.Data.Expiration, apiResponse.Data.RefreshToken);
 
             return Ok(apiResponse);
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register(RegisterRequest registerRequest)
+        {
+            ApiResponse<RegisterResponse> apiResponse = await _mediator.Send(registerRequest);
+            if (apiResponse.Success)
+            {
+                AddRefreshTokenToCookie(apiResponse.Data.Expiration, apiResponse.Data.RefreshToken);
+                return Ok(apiResponse);
+            }
+            else
+                return BadRequest(apiResponse);
         }
 
         private void AddRefreshTokenToCookie(DateTime expiration, string refreshToken)

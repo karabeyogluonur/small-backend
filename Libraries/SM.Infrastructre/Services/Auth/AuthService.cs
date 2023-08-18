@@ -2,6 +2,7 @@
 using SM.Core.Common.Exceptions;
 using SM.Core.Domain;
 using SM.Core.DTOs.Auth;
+using SM.Core.Features.Auth.Register;
 using SM.Core.Interfaces.Services.Auth;
 using SM.Core.Interfaces.Services.Membership;
 using System;
@@ -26,6 +27,13 @@ namespace SM.Infrastructre.Services.Auth
             _tokenService = tokenService;
             _userService = userService;
         }
+
+        public async Task<IdentityResult> RegisterAsync(ApplicationUser applicationUser, string password)
+        {
+            applicationUser.UserName = applicationUser.Email;
+            return await _userManager.CreateAsync(applicationUser, password);
+        }
+
         public async Task<TokenDTO> SignInAsync(string email, string password)
         {
             ApplicationUser applicationUser = await _userManager.FindByEmailAsync(email);
