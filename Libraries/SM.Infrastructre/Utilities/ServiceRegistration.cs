@@ -6,7 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SM.Core.Domain;
+using SM.Core.Interfaces.Repositores;
 using SM.Infrastructre.Persistence.Contexts;
+using SM.Infrastructre.Persistence.Repositories;
 using System.Text;
 
 namespace SM.Infrastructre.Utilities
@@ -18,6 +20,13 @@ namespace SM.Infrastructre.Utilities
             #region Database context
 
             services.AddDbContext<SMDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SMDbConnection")));
+
+            #endregion
+
+            #region Repositories
+
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
+            //services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             #endregion
 
