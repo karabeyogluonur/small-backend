@@ -29,6 +29,20 @@ namespace SM.Infrastructre.Services.Auth
             _userService = userService;
         }
 
+        public async Task<string> ForgotPasswordAsync(string email)
+        {
+            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(email);
+
+            if (applicationUser == null)
+                throw new UserNotFoundException();
+
+            string passwordResetToken = await _userManager.GeneratePasswordResetTokenAsync(applicationUser);
+
+            await _userService.UpdatePasswordResetTokenAsync(applicationUser, passwordResetToken);
+
+            return passwordResetToken;
+        }
+
         public async Task<TokenDTO> RefreshTokenSignInAsync(string refreshToken)
         {
             ApplicationUser applicationUser = await _userManager.Users.FirstOrDefaultAsync(user => user.RefreshToken == refreshToken);
@@ -45,6 +59,28 @@ namespace SM.Infrastructre.Services.Auth
         {
             applicationUser.UserName = applicationUser.Email;
             return await _userManager.CreateAsync(applicationUser, password);
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(string resetPasswordToken, string newPassword)
+        {
+            ApplicationUser applicationUser = await _userManager.Users.FirstOrDefaultAsync(user => user.PasswordResetToken == resetPasswordToken);
+
+            if (applicationUser == null)
+                throw new UserNotFoundException();
+
+            return await _userManager.ResetPasswordAsync(applicationUser,resetPasswordToken, newPassword);
+                
+        }
+
+        public async Task<bool> ResetPasswordConfirmationAsync(string resetPasswordToken)
+        {
+            ApplicationUser applicationUser = await _userManager.Users.FirstOrDefaultAsync(user => user.PasswordResetToken == resetPasswordToken);
+
+            if (applicationUser == null)
+                return false;
+            else
+                return true;
+            
         }
 
         public async Task<TokenDTO> SignInAsync(string email, string password)

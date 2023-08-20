@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using SM.Core.Domain;
 using SM.Core.Interfaces.Services.Membership;
+using SM.Infrastructre.Migrations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,13 @@ namespace SM.Infrastructre.Services.Membership
         {
             _userManager = userManager;
             _configuration = configuration;
+        }
+
+        public async Task UpdatePasswordResetTokenAsync(ApplicationUser applicationUser, string passwordResetToken)
+        {
+            applicationUser.PasswordResetToken = passwordResetToken;
+
+            await _userManager.UpdateAsync(applicationUser);
         }
 
         public async Task UpdateRefreshTokenAsync(ApplicationUser applicationUser, string refreshToken)

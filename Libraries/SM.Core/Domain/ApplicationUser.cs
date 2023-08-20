@@ -13,5 +13,6 @@ namespace SM.Core.Domain
         public string LastName { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiration { get; set; }
+        public string? PasswordResetToken { get; set; }
     }
 }

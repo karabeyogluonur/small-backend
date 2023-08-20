@@ -103,6 +103,7 @@ namespace SM.Infrastructre.Utilities
             services.AddTransient<IUserService,UserService>();
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailService, EmailService>();
             #endregion
         }
     }
