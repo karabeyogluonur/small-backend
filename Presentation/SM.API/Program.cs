@@ -1,6 +1,7 @@
 using SM.Core.Common.Model;
 using SM.Core.Utilities;
 using SM.Infrastructre.Utilities;
+using SM.Infrastructre.Persistence.Seeds;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,13 +49,12 @@ if(app.Environment.IsDevelopment())
 
 #region Middlewares
 
+DbInitializer.Initialize(app);
 app.UseStaticFiles();
-
 app.MapGet("/", async context =>
 {
     await context.Response.WriteAsync("Welcome to Small.");
 });
-
 app.UseCors("Member");
 app.UseHttpsRedirection();
 app.UseAuthentication();
