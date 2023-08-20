@@ -10,11 +10,13 @@ using SM.Core.Interfaces.Repositores;
 using SM.Core.Interfaces.Services.Auth;
 using SM.Core.Interfaces.Services.Media;
 using SM.Core.Interfaces.Services.Membership;
+using SM.Core.Interfaces.Services.Notification;
 using SM.Infrastructre.Persistence.Contexts;
 using SM.Infrastructre.Persistence.Repositories;
 using SM.Infrastructre.Services.Auth;
 using SM.Infrastructre.Services.Media;
 using SM.Infrastructre.Services.Membership;
+using SM.Infrastructre.Services.Notification;
 using System.Text;
 
 namespace SM.Infrastructre.Utilities
@@ -100,6 +102,7 @@ namespace SM.Infrastructre.Utilities
             services.AddTransient<IAuthService,AuthService>();
             services.AddTransient<IUserService,UserService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IEmailSender, EmailSender>();
             #endregion
         }
     }
