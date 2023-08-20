@@ -41,6 +41,8 @@ if(app.Environment.IsDevelopment())
 
 #region Middlewares
 
+app.UseStaticFiles();
+
 app.MapGet("/", async context =>
 {
     await context.Response.WriteAsync("Welcome to Small.");
