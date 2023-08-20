@@ -1,3 +1,4 @@
+using SM.Core.Common.Model;
 using SM.Core.Utilities;
 using SM.Infrastructre.Utilities;
 
@@ -24,6 +25,12 @@ builder.Services.AddCors(cors => cors.AddPolicy("Member", policy =>
           .AllowAnyHeader()
           .AllowAnyMethod()
           .WithOrigins(builder.Configuration["CORS:AllowedOrigins"].Split(";"))));
+#endregion
+
+#region Email Account Options
+
+builder.Services.Configure<EmailAccountOptions>(builder.Configuration.GetSection("EmailAccount"));
+
 #endregion
 
 var app = builder.Build();
