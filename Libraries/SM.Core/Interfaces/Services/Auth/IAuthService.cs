@@ -15,5 +15,8 @@ namespace SM.Core.Interfaces.Services.Auth
         Task<TokenDTO> SignInAsync(string email, string password);
         Task<IdentityResult> RegisterAsync(ApplicationUser applicationUser,string password);
         Task<TokenDTO> RefreshTokenSignInAsync(string refreshToken);
+        Task<string> ForgotPasswordAsync(string email);
+        Task<bool> ResetPasswordConfirmationAsync(string resetPasswordToken);
+        Task<IdentityResult> ResetPasswordAsync(string resetPasswordToken,string newPassword);
     }
 }

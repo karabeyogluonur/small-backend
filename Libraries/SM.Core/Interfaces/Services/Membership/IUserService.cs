@@ -10,5 +10,6 @@ namespace SM.Core.Interfaces.Services.Membership
     public interface IUserService
     {
         Task UpdateRefreshTokenAsync(ApplicationUser applicationUser, string refreshToken);
+        Task UpdatePasswordResetTokenAsync(ApplicationUser applicationUser, string passwordResetToken);
     }
 }

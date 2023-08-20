@@ -2,9 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
+using SM.Core.Features.Auth.ForgotPassword;
 using SM.Core.Features.Auth.Login;
+using SM.Core.Features.Auth.RefreshPasswordConfirmation;
 using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
+using SM.Core.Features.Auth.ResetPassword;
 
 namespace SM.API.Controllers
 {
@@ -76,6 +79,34 @@ namespace SM.API.Controllers
             return Ok(apiResponse);
         }
 
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordRequest forgotPasswordRequest)
+        {
+            ApiResponse<ForgotPasswordResponse> apiResponse = await _mediator.Send(forgotPasswordRequest);
+            return Ok(apiResponse);
+        }
+
+        [HttpPost("reset-password-confirmation")]
+        public async Task<IActionResult> ResetPasswordConfirmation(ResetPasswordConfirmationRequest resetPasswordConfirmationRequest)
+        {
+            ApiResponse<ResetPasswordConfirmationResponse> apiResponse = await _mediator.Send(resetPasswordConfirmationRequest);
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordRequest resetPasswordRequest)
+        {
+            ApiResponse<ResetPasswordResponse> apiResponse = await _mediator.Send(resetPasswordRequest);
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
 
         private void AddRefreshTokenToCookie(DateTime expiration, string refreshToken)
         {
