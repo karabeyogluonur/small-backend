@@ -2,6 +2,7 @@ using SM.Core.Common.Model;
 using SM.Core.Utilities;
 using SM.Infrastructre.Utilities;
 using SM.Infrastructre.Persistence.Seeds;
+using SM.Core.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +51,7 @@ if(app.Environment.IsDevelopment())
 #region Middlewares
 
 DbInitializer.Initialize(app);
+app.ConfigureExceptionHandler<Program>();
 app.UseStaticFiles();
 app.MapGet("/", async context =>
 {
