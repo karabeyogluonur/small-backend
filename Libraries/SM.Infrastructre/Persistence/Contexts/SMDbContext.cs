@@ -15,5 +15,6 @@ namespace SM.Infrastructre.Persistence.Contexts
         {
             
         }
+        public DbSet<Topic> Topics { get; set; }
     }
 }
