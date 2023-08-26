@@ -3,6 +3,7 @@ using MediatR;
 using SM.Core.Common;
 using SM.Core.Domain;
 using SM.Core.DTOs.Blog;
+using SM.Core.Interfaces.Collections;
 using SM.Core.Interfaces.Services.Blog;
 using System;
 using System.Collections.Generic;
@@ -24,12 +25,8 @@ namespace SM.Core.Features.Topics.SearchTopic
         }
         public async Task<ApiResponse<SearchTopicResponse>> Handle(SearchTopicRequest request, CancellationToken cancellationToken)
         {
-            List<Topic> topics = await _topicService.SearchTopicsAsync(searchKeywords: request.SearchKeywords, showDeactived: request.ShowDeactived);
-
-            SearchTopicResponse searchTopicResponse = new SearchTopicResponse
-            {
-                Topics = _mapper.Map<List<TopicDTO>>(topics)
-            };
+            IPagedList<Topic> topics = await _topicService.SearchTopicsAsync(searchKeywords: request.SearchKeywords, showDeactived: request.ShowDeactived, pageIndex:request.pageIndex,pageSize:request.pageSize);
+            SearchTopicResponse searchTopicResponse = _mapper.Map<SearchTopicResponse>(topics); 
 
             return ApiResponse<SearchTopicResponse>.Successful(searchTopicResponse, "Topic search receive successful.");
 

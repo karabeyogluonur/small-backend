@@ -1,7 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SM.Core.Common.Enums.Collections;
 using SM.Core.Domain;
+using SM.Core.Interfaces.Collections;
 using SM.Core.Interfaces.Repositores;
 using SM.Core.Interfaces.Services.Blog;
+using SM.Infrastructre.Persistence.Collections;
+using SM.Infrastructre.Utilities.Extensions;
 
 namespace SM.Infrastructre.Services.Blog
 {
@@ -17,14 +21,14 @@ namespace SM.Infrastructre.Services.Blog
             _topicRepository = _unitOfWork.GetRepository<Topic>();
         }
 
-        public async Task<List<Topic>> GetAllTopicsAsync(bool showDeactived = false)
+        public async Task<IPagedList<Topic>> GetAllTopicsAsync(bool showDeactived = false,int pageIndex = 0, int pageSize = int.MaxValue)
         {
             IQueryable<Topic> topics = _topicRepository.GetAll();
 
             if(!showDeactived)
                 topics = topics.Where(topic=>topic.Active);
 
-            return await topics.ToListAsync();
+            return await topics.ToPagedListAsync(pageIndex:pageIndex, pageSize:pageSize);
         }
 
         public async Task<Topic> GetTopicByIdAsync(int topicId)
@@ -41,7 +45,7 @@ namespace SM.Infrastructre.Services.Blog
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<List<Topic>> SearchTopicsAsync(string searchKeywords,bool showDeactived = false)
+        public async Task<IPagedList<Topic>> SearchTopicsAsync(string searchKeywords,bool showDeactived = false, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             IQueryable<Topic> topics = _topicRepository.GetAll();
 
@@ -51,7 +55,7 @@ namespace SM.Infrastructre.Services.Blog
             if (!String.IsNullOrEmpty(searchKeywords))
                 topics = topics.Where(topic => topic.Name.Contains(searchKeywords));
 
-            return await topics.ToListAsync();
+            return await topics.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
             
         }
 
@@ -60,5 +64,6 @@ namespace SM.Infrastructre.Services.Blog
             _topicRepository.Update(topic);
             _unitOfWork.SaveChanges();
         }
+
     }
 }
