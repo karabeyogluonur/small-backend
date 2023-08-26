@@ -3,6 +3,7 @@ using MediatR;
 using SM.Core.Common;
 using SM.Core.Domain;
 using SM.Core.DTOs.Blog;
+using SM.Core.Interfaces.Collections;
 using SM.Core.Interfaces.Services.Blog;
 
 namespace SM.Core.Features.Topics.GetAllTopic
@@ -20,11 +21,8 @@ namespace SM.Core.Features.Topics.GetAllTopic
 
         public async Task<ApiResponse<GetAllTopicResponse>> Handle(GetAllTopicRequest request, CancellationToken cancellationToken)
         {
-            List<Topic> topics = await _topicService.GetAllTopicsAsync(showDeactived: request.ShowDeactived);
-            GetAllTopicResponse getAllTopicsResponse = new GetAllTopicResponse()
-            {
-                Topics = _mapper.Map<List<TopicDTO>>(topics)
-            };
+            IPagedList<Topic> topics = await _topicService.GetAllTopicsAsync(showDeactived: request.ShowDeactived,pageIndex:request.pageIndex,pageSize:request.pageSize);
+            GetAllTopicResponse getAllTopicsResponse = _mapper.Map<GetAllTopicResponse>(topics);
 
             return ApiResponse<GetAllTopicResponse>.Successful(getAllTopicsResponse, "Topics receive successful.");
         }

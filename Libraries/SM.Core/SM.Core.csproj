@@ -19,4 +19,12 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Interfaces\Collections\" />
+    <None Remove="Common\Enums\Collections\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\Collections\" />
+    <Folder Include="Common\Enums\Collections\" />
+  </ItemGroup>
 </Project>

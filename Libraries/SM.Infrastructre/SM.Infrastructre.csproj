@@ -29,4 +29,12 @@
     <ProjectReference Include="..\SM.Core\SM.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Persistence\Collections\" />
+    <None Remove="Utilities\Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Persistence\Collections\" />
+    <Folder Include="Utilities\Extensions\" />
+  </ItemGroup>
 </Project>

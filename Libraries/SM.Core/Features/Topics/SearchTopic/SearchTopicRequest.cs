@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SM.Core.Common;
+using SM.Core.Common.Enums.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,7 @@ namespace SM.Core.Features.Topics.SearchTopic
     {
         public string SearchKeywords { get; set; }
         public bool ShowDeactived { get; set; }
+        public int pageIndex { get; set; }
+        public int pageSize { get; set; } = (int)DefaultPageSize.SearchTopic;
     }
 }
