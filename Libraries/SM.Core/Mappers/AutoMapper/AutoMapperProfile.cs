@@ -2,6 +2,7 @@
 using SM.Core.Domain;
 using SM.Core.DTOs.Auth;
 using SM.Core.DTOs.Blog;
+using SM.Core.Features.Articles.GetAllArticle;
 using SM.Core.Features.Auth.Login;
 using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
@@ -35,6 +36,18 @@ namespace SM.Core.Mappers.AutoMapper
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
             CreateMap<IPagedList<Topic>, SearchTopicResponse>().ForMember(dest => dest.Items,
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
+            #endregion
+
+            #region Article
+
+            CreateMap<Article, ArticleDTO>().ReverseMap();
+
+            CreateMap<IPagedList<Article>, GetAllArticleResponse>().ForMember(dest => dest.Items,
+                opt => opt.MapFrom(src => src.Items)).ReverseMap();
+
+            
+
+
             #endregion
 
 

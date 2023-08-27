@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SM.Core.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SM.Infrastructre.Persistence.Contexts
 {
@@ -14,6 +9,10 @@ namespace SM.Infrastructre.Persistence.Contexts
         public SMDbContext(DbContextOptions options) : base(options)
         {
             
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
         }
         public DbSet<Topic> Topics { get; set; }
     }
