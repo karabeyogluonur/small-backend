@@ -9,6 +9,12 @@ namespace SM.Core.Common.Enums.Collections
         SearchTopic = 3,
 
         #endregion
+
+        #region Article
+
+        GetAllArticle = 50,
+
+        #endregion
     }
 }
 

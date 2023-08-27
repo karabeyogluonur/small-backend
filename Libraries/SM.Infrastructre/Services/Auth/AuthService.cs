@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SM.Core.Common.Exceptions;
 using SM.Core.Domain;
@@ -9,6 +12,7 @@ using SM.Core.Interfaces.Services.Membership;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,13 +24,15 @@ namespace SM.Infrastructre.Services.Auth
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService, IUserService userService)
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService, IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _userService = userService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<string> ForgotPasswordAsync(string email)
@@ -41,6 +47,20 @@ namespace SM.Infrastructre.Services.Auth
             await _userService.UpdatePasswordResetTokenAsync(applicationUser, passwordResetToken);
 
             return passwordResetToken;
+        }
+
+        public async Task<ApplicationUser> GetAuthenticatedCustomerAsync()
+        {
+            AuthenticateResult authenticateResult = await _httpContextAccessor.HttpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
+            if (!authenticateResult.Succeeded)
+                return null;
+
+            Claim? claim = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Name);
+
+            if (claim == null)
+                return null;
+
+            return await _userManager.FindByEmailAsync(claim.Value);
         }
 
         public async Task<TokenDTO> RefreshTokenSignInAsync(string refreshToken)

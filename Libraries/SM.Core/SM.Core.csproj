@@ -22,9 +22,15 @@
   <ItemGroup>
     <None Remove="Interfaces\Collections\" />
     <None Remove="Common\Enums\Collections\" />
+    <None Remove="Features\Articles\" />
+    <None Remove="Features\Articles\GetAllArticle\" />
+    <None Remove="Validators\Blog\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
     <Folder Include="Common\Enums\Collections\" />
+    <Folder Include="Features\Articles\" />
+    <Folder Include="Features\Articles\GetAllArticle\" />
+    <Folder Include="Validators\Blog\" />
   </ItemGroup>
 </Project>
