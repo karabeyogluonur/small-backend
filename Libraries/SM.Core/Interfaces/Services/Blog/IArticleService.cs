@@ -8,7 +8,7 @@ namespace SM.Core.Interfaces.Services.Blog
 	{
         Task<IPagedList<Article>> GetAllArticlesAsync(List<int> topicIds = null, int pageIndex = 0, int pageSize = int.MaxValue);
         Task<IPagedList<Article>> SearchArticlesAsync(string searchKeywords, int pageIndex = 0, int pageSize = int.MaxValue);
-        Task InsertArticleAsync(Article article);
+        Task<int> InsertArticleAsync(Article article);
         void UpdateArticle(Article article);
         Task<Article> GetArticleByIdAsync(int articleId);
     }

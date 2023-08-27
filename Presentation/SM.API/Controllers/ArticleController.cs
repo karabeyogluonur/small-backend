@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Articles.GetAllArticle;
-using SM.Core.Features.Topics.GetAllTopic;
+using SM.Core.Features.Articles.InsertArticle;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -25,6 +22,13 @@ namespace SM.API.Controllers
         public async Task<IActionResult> GetAll([FromQuery] GetAllArticleRequest getAllArticleRequest)
         {
             ApiResponse<GetAllArticleResponse> apiResponse = await _mediator.Send(getAllArticleRequest);
+            return Ok(apiResponse);
+        }
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Insert([FromBody] InsertArticleRequest insertArticleRequest)
+        {
+            ApiResponse<InsertArticleResponse> apiResponse = await _mediator.Send(insertArticleRequest);
             return Ok(apiResponse);
         }
 

@@ -34,7 +34,7 @@ namespace SM.Infrastructre.Services.Blog
 
         }
 
-        public async Task InsertArticleAsync(Article article)
+        public async Task<int> InsertArticleAsync(Article article)
         {
             article.CreatedDate = DateTime.Now;
             article.UpdatedDate = DateTime.Now;
@@ -42,6 +42,8 @@ namespace SM.Infrastructre.Services.Blog
 
             await _articleRepository.InsertAsync(article);
             await _unitOfWork.SaveChangesAsync();
+
+            return article.Id;
             
         }
 
