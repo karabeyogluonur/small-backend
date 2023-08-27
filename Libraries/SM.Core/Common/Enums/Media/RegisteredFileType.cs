@@ -2,7 +2,7 @@
 {
     public enum RegisteredFileType
     {
-        Posts,
+        Articles,
         Avatars,
     }
 }
