@@ -3,6 +3,7 @@ using SM.Core.Domain;
 using SM.Core.DTOs.Auth;
 using SM.Core.DTOs.Blog;
 using SM.Core.Features.Articles.GetAllArticle;
+using SM.Core.Features.Articles.UpdateArticle;
 using SM.Core.Features.Auth.Login;
 using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
@@ -45,8 +46,8 @@ namespace SM.Core.Mappers.AutoMapper
             CreateMap<IPagedList<Article>, GetAllArticleResponse>().ForMember(dest => dest.Items,
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
 
-            
-
+            CreateMap<Article, UpdateArticleRequest>().ForMember(article => article.ArticleId, opt => opt.Ignore()).ReverseMap();
+            CreateMap<Article, UpdateArticleResponse>().ReverseMap();
 
             #endregion
 

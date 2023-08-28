@@ -27,6 +27,7 @@
     <None Remove="Validators\Blog\" />
     <None Remove="Features\Articles\InsertArticle\" />
     <None Remove="Features\Articles\UploadArticleImage\" />
+    <None Remove="Features\Articles\UpdateArticle\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -36,5 +37,6 @@
     <Folder Include="Validators\Blog\" />
     <Folder Include="Features\Articles\InsertArticle\" />
     <Folder Include="Features\Articles\UploadArticleImage\" />
+    <Folder Include="Features\Articles\UpdateArticle\" />
   </ItemGroup>
 </Project>
