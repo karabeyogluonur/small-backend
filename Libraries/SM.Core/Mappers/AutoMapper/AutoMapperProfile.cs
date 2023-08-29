@@ -2,6 +2,7 @@
 using SM.Core.Domain;
 using SM.Core.DTOs.Auth;
 using SM.Core.DTOs.Blog;
+using SM.Core.DTOs.Membership;
 using SM.Core.Features.Articles.GetAllArticle;
 using SM.Core.Features.Articles.UpdateArticle;
 using SM.Core.Features.Auth.Login;
@@ -10,11 +11,6 @@ using SM.Core.Features.Auth.Register;
 using SM.Core.Features.Topics.GetAllTopic;
 using SM.Core.Features.Topics.SearchTopic;
 using SM.Core.Interfaces.Collections;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SM.Core.Mappers.AutoMapper
 {
@@ -33,22 +29,34 @@ namespace SM.Core.Mappers.AutoMapper
             #region Topic
 
             CreateMap<TopicDTO, Topic>().ReverseMap();
+
             CreateMap<IPagedList<Topic>, GetAllTopicResponse>().ForMember(dest => dest.Items,
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
+
             CreateMap<IPagedList<Topic>, SearchTopicResponse>().ForMember(dest => dest.Items,
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
             #endregion
 
-            #region Article
+            #region Membership
 
-            CreateMap<Article, ArticleDTO>().ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserDTO>().ReverseMap();
+
+            #endregion
+
+            #region Article
+            
+
+            CreateMap<Article, ArticleDTO>()
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.ApplicationUser))
+                .ForMember(dest => dest.Topics, opt => opt.MapFrom(src => src.Topics))
+                .ReverseMap();
 
             CreateMap<IPagedList<Article>, GetAllArticleResponse>().ForMember(dest => dest.Items,
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
 
             CreateMap<Article, UpdateArticleRequest>().ForMember(article => article.ArticleId, opt => opt.Ignore()).ReverseMap();
             CreateMap<Article, UpdateArticleResponse>().ReverseMap();
-
+            
             #endregion
 
 
