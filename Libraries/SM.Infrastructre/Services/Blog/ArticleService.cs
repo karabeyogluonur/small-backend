@@ -30,7 +30,7 @@ namespace SM.Infrastructre.Services.Blog
 
         public async Task<Article> GetArticleByIdAsync(int articleId)
         {
-           return await _articleRepository.GetFirstOrDefaultAsync(predicate:article => article.Id == articleId);
+            return await _articleRepository.GetFirstOrDefaultAsync(predicate: article => article.Id == articleId, disableTracking: false);
 
         }
 
