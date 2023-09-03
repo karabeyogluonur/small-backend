@@ -12,8 +12,8 @@ using SM.Infrastructre.Persistence.Contexts;
 namespace SM.Infrastructre.Migrations
 {
     [DbContext(typeof(SMDbContext))]
-    [Migration("20230827104716_Article")]
-    partial class Article
+    [Migration("20230903173653_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,11 +266,10 @@ namespace SM.Infrastructre.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ApplicationUserId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
@@ -283,7 +282,6 @@ namespace SM.Infrastructre.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -291,9 +289,9 @@ namespace SM.Infrastructre.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("AuthorId");
 
-                    b.ToTable("Article");
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("SM.Core.Domain.Topic", b =>
@@ -387,13 +385,13 @@ namespace SM.Infrastructre.Migrations
 
             modelBuilder.Entity("SM.Core.Domain.Article", b =>
                 {
-                    b.HasOne("SM.Core.Domain.ApplicationUser", "ApplicationUser")
+                    b.HasOne("SM.Core.Domain.ApplicationUser", "Author")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

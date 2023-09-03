@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SM.Core.Common.Enums.Collections;
-using SM.Core.Domain;
+﻿using SM.Core.Domain;
 using SM.Core.Interfaces.Collections;
 using SM.Core.Interfaces.Repositores;
 using SM.Core.Interfaces.Services.Blog;
-using SM.Infrastructre.Persistence.Collections;
 using SM.Infrastructre.Utilities.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace SM.Infrastructre.Services.Blog
 {
@@ -21,12 +19,19 @@ namespace SM.Infrastructre.Services.Blog
             _topicRepository = _unitOfWork.GetRepository<Topic>();
         }
 
-        public async Task<IPagedList<Topic>> GetAllTopicsAsync(bool showDeactived = false,int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Topic>> GetAllTopicsAsync(
+            bool showDeactived = false,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool includeArticles = true)
         {
             IQueryable<Topic> topics = _topicRepository.GetAll();
 
             if(!showDeactived)
                 topics = topics.Where(topic=>topic.Active);
+
+            if (includeArticles)
+                topics = topics.Include(topic => topic.Articles);
 
             return await topics.ToPagedListAsync(pageIndex:pageIndex, pageSize:pageSize);
         }
@@ -45,7 +50,12 @@ namespace SM.Infrastructre.Services.Blog
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<IPagedList<Topic>> SearchTopicsAsync(string searchKeywords,bool showDeactived = false, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Topic>> SearchTopicsAsync(
+            string searchKeywords,
+            bool showDeactived = false,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool includeArticles = true)
         {
             IQueryable<Topic> topics = _topicRepository.GetAll();
 
@@ -54,6 +64,9 @@ namespace SM.Infrastructre.Services.Blog
 
             if (!String.IsNullOrEmpty(searchKeywords))
                 topics = topics.Where(topic => topic.Name.Contains(searchKeywords));
+
+            if (includeArticles)
+                topics = topics.Include(topic => topic.Articles);
 
             return await topics.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
             

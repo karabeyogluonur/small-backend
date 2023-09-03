@@ -2,12 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using SM.Core.Domain;
 using SM.Core.Interfaces.Services.Membership;
-using SM.Infrastructre.Migrations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace SM.Infrastructre.Services.Membership
 {

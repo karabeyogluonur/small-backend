@@ -26,7 +26,7 @@ namespace SM.Core.Features.Articles.InsertArticle
             {
                 Title = request.Title,
                 Content = request.Content,
-                ApplicationUserId = applicationUser.Id
+                AuthorId = applicationUser.Id
             });
 
             InsertArticleResponse insertArticleResponse = new InsertArticleResponse { Id = articleId };
