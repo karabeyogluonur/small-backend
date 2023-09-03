@@ -18,6 +18,17 @@ namespace SM.Infrastructre.Services.Blog
 			_articleRepository = _unitOfWork.GetRepository<Article>();
 		}
 
+        public async Task DeleteAllTopicsAsync(int articleId)
+        {
+            Article article = await GetArticleByIdAsync(articleId);
+
+            article.Topics.Clear();
+            article.UpdatedDate = DateTime.Now;
+
+            await _unitOfWork.SaveChangesAsync();
+           
+        }
+
         public async Task<IPagedList<Article>> GetAllArticlesAsync(
             List<int> topicIds = null,
             int pageIndex = 0,
@@ -59,6 +70,7 @@ namespace SM.Infrastructre.Services.Blog
         {
             article.CreatedDate = DateTime.Now;
             article.UpdatedDate = DateTime.Now;
+            article.Published = false;
             article.Deleted = false;
 
             await _articleRepository.InsertAsync(article);
@@ -92,6 +104,8 @@ namespace SM.Infrastructre.Services.Blog
         public void UpdateArticle(Article article)
         {
             article.UpdatedDate = DateTime.Now;
+
+            _articleRepository.ChangeEntityState(article, EntityState.Modified);
             _articleRepository.Update(article);
 
             _unitOfWork.SaveChanges();

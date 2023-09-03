@@ -30,6 +30,8 @@
     <None Remove="Features\Articles\UpdateArticle\" />
     <None Remove="Features\Articles\GetArticleById\" />
     <None Remove="DTOs\Membership\" />
+    <None Remove="Features\Articles\UpdateTopic\" />
+    <None Remove="Features\Articles\PublishArticle\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -42,5 +44,7 @@
     <Folder Include="Features\Articles\UpdateArticle\" />
     <Folder Include="Features\Articles\GetArticleById\" />
     <Folder Include="DTOs\Membership\" />
+    <Folder Include="Features\Articles\UpdateTopic\" />
+    <Folder Include="Features\Articles\PublishArticle\" />
   </ItemGroup>
 </Project>

@@ -25,6 +25,8 @@ namespace SM.Core.Interfaces.Services.Blog
 
         Task<Article> GetArticleByIdAsync(int articleId);
 
+        Task DeleteAllTopicsAsync(int articleId);
+
         Task<int> InsertArticleAsync(Article article);
 
         void UpdateArticle(Article article);

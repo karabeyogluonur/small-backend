@@ -5,7 +5,9 @@ using SM.Core.Common;
 using SM.Core.Features.Articles.GetAllArticle;
 using SM.Core.Features.Articles.GetArticleById;
 using SM.Core.Features.Articles.InsertArticle;
+using SM.Core.Features.Articles.PublishArticle;
 using SM.Core.Features.Articles.UpdateArticle;
+using SM.Core.Features.Articles.UpdateTopic;
 using SM.Core.Features.Articles.UploadArticleImage;
 
 namespace SM.API.Controllers
@@ -59,6 +61,30 @@ namespace SM.API.Controllers
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             ApiResponse<GetArticleByIdResponse> apiResponse = await _mediator.Send(new GetArticleByIdRequest(){articleId = id});
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+
+        [HttpPost("UpdateTopics")]
+        [Authorize]
+        public async Task<IActionResult> UpdateTopics([FromBody] UpdateTopicRequest updateTopicRequest)
+        {
+            ApiResponse<UpdateTopicResponse> apiResponse = await _mediator.Send(updateTopicRequest);
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+
+        [HttpPost("{id}/publish")]
+        [Authorize]
+        public async Task<IActionResult> Publish([FromRoute] int id)
+        {
+            ApiResponse<PublishArticleResponse> apiResponse = await _mediator.Send(new PublishArticleRequest{ ArticleId = id});
 
             if (apiResponse.Success)
                 return Ok(apiResponse);
