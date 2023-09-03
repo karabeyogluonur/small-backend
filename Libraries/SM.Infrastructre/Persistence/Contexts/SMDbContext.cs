@@ -10,10 +10,7 @@ namespace SM.Infrastructre.Persistence.Contexts
         {
             
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLazyLoadingProxies();
-        }
+        public DbSet<Article> Articles { get; set; }
         public DbSet<Topic> Topics { get; set; }
     }
 }

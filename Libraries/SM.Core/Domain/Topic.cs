@@ -12,6 +12,6 @@ namespace SM.Core.Domain
         public string Name { get; set; }
         public bool Active { get; set; }
         public DateTime CreatedDate { get; set; }
-        public virtual ICollection<Article> Articles { get; set; }
+        public ICollection<Article> Articles { get; set; }
     }
 }

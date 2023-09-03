@@ -18,9 +18,6 @@ namespace SM.Infrastructre.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.10")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -266,7 +263,7 @@ namespace SM.Infrastructre.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ApplicationUserId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -289,9 +286,9 @@ namespace SM.Infrastructre.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("AuthorId");
 
-                    b.ToTable("Article");
+                    b.ToTable("Articles");
                 });
 
             modelBuilder.Entity("SM.Core.Domain.Topic", b =>
@@ -385,13 +382,13 @@ namespace SM.Infrastructre.Migrations
 
             modelBuilder.Entity("SM.Core.Domain.Article", b =>
                 {
-                    b.HasOne("SM.Core.Domain.ApplicationUser", "ApplicationUser")
+                    b.HasOne("SM.Core.Domain.ApplicationUser", "Author")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.Navigation("Author");
                 });
 #pragma warning restore 612, 618
         }

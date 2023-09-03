@@ -4,6 +4,7 @@ using SM.Core.Interfaces.Collections;
 using SM.Core.Interfaces.Repositores;
 using SM.Core.Interfaces.Services.Blog;
 using SM.Infrastructre.Utilities.Extensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace SM.Infrastructre.Services.Blog
 {
@@ -17,7 +18,13 @@ namespace SM.Infrastructre.Services.Blog
 			_articleRepository = _unitOfWork.GetRepository<Article>();
 		}
 
-        public async Task<IPagedList<Article>> GetAllArticlesAsync(List<int> topicIds = null, int pageIndex = 0, int pageSize = int.MaxValue,bool showNonPublished = false)
+        public async Task<IPagedList<Article>> GetAllArticlesAsync(
+            List<int> topicIds = null,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool showNonPublished = false,
+            bool includeTopics = true,
+            bool includeAuthor = true)
         {
             IQueryable<Article> articles = _articleRepository.GetAll();
 
@@ -27,13 +34,24 @@ namespace SM.Infrastructre.Services.Blog
             if (!showNonPublished)
                 articles = articles.Where(article => article.Published == true);
 
+            if (includeTopics)
+                articles = articles.Include(article => article.Topics);
+
+            if (includeAuthor)
+                articles = articles.Include(article => article.Author);
+
             return await articles.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
             
         }
 
+
+
         public async Task<Article> GetArticleByIdAsync(int articleId)
         {
-            return await _articleRepository.GetFirstOrDefaultAsync(predicate: article => article.Id == articleId, disableTracking: false);
+            return await _articleRepository.GetFirstOrDefaultAsync(
+                predicate: article => article.Id == articleId,
+                include:inc=>inc.Include(article=>article.Topics).Include(article=>article.Author),
+                disableTracking:false);
 
         }
 
@@ -50,12 +68,23 @@ namespace SM.Infrastructre.Services.Blog
             
         }
 
-        public async Task<IPagedList<Article>> SearchArticlesAsync(string searchKeywords, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Article>> SearchArticlesAsync(
+            string searchKeywords,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool includeTopics = true,
+            bool includeAuthor = true)
         {
             IQueryable<Article> articles = _articleRepository.GetAll();
 
             if (!String.IsNullOrEmpty(searchKeywords))
                 articles = articles.Where(article => article.Title.Contains(searchKeywords) || article.Content.Contains(searchKeywords));
+
+            if (includeTopics)
+                articles = articles.Include(article => article.Topics);
+
+            if (includeAuthor)
+                articles = articles.Include(article => article.Author);
 
             return await articles.ToPagedListAsync(pageIndex:pageIndex,pageSize:pageSize);
         }

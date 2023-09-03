@@ -31,7 +31,7 @@ namespace SM.Core.Features.Articles.GetArticleById
 
             ApplicationUser currentUser = await _authService.GetAuthenticatedCustomerAsync();
 
-            if (article.ApplicationUserId != currentUser.Id)
+            if (article.AuthorId != currentUser.Id)
                 throw new UnauthorizedAccessException("You are not authorized for this article.");
 
             GetArticleByIdResponse getArticleByIdResponse = new GetArticleByIdResponse { Article = _mapper.Map<ArticleDTO>(article) };

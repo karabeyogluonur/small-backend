@@ -6,11 +6,28 @@ namespace SM.Core.Interfaces.Services.Blog
 {
 	public interface IArticleService
 	{
-        Task<IPagedList<Article>> GetAllArticlesAsync(List<int> topicIds = null, int pageIndex = 0, int pageSize = int.MaxValue, bool showNonPublished = false);
-        Task<IPagedList<Article>> SearchArticlesAsync(string searchKeywords, int pageIndex = 0, int pageSize = int.MaxValue);
-        Task<int> InsertArticleAsync(Article article);
-        void UpdateArticle(Article article);
+        Task<IPagedList<Article>> GetAllArticlesAsync(
+            List<int> topicIds = null,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool showNonPublished = false,
+            bool includeTopics = true,
+            bool includeAuthor = true
+            );
+
+        Task<IPagedList<Article>> SearchArticlesAsync(
+            string searchKeywords,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue,
+            bool includeTopics = true,
+            bool includeAuthor = true
+            );
+
         Task<Article> GetArticleByIdAsync(int articleId);
+
+        Task<int> InsertArticleAsync(Article article);
+
+        void UpdateArticle(Article article);
     }
 }
 

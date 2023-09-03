@@ -8,8 +8,6 @@ using SM.Core.Features.Articles.InsertArticle;
 using SM.Core.Features.Articles.UpdateArticle;
 using SM.Core.Features.Articles.UploadArticleImage;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SM.API.Controllers
 {
     [Route("api/articles")]

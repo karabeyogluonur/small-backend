@@ -47,7 +47,7 @@ namespace SM.Core.Mappers.AutoMapper
             
 
             CreateMap<Article, ArticleDTO>()
-                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.ApplicationUser))
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
                 .ForMember(dest => dest.Topics, opt => opt.MapFrom(src => src.Topics))
                 .ReverseMap();
 
