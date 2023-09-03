@@ -17,12 +17,15 @@ namespace SM.Infrastructre.Services.Blog
 			_articleRepository = _unitOfWork.GetRepository<Article>();
 		}
 
-        public async Task<IPagedList<Article>> GetAllArticlesAsync(List<int> topicIds = null, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Article>> GetAllArticlesAsync(List<int> topicIds = null, int pageIndex = 0, int pageSize = int.MaxValue,bool showNonPublished = false)
         {
             IQueryable<Article> articles = _articleRepository.GetAll();
 
             if (topicIds != null)
-                articles = articles.Where(x => x.Topics.Any(topic => topicIds.Contains(topic.Id)));
+                articles = articles.Where(article => article.Topics.Any(topic => topicIds.Contains(topic.Id)));
+
+            if (!showNonPublished)
+                articles = articles.Where(article => article.Published == true);
 
             return await articles.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
             
