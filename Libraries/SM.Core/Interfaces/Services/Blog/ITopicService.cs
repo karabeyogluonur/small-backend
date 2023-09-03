@@ -25,7 +25,10 @@ namespace SM.Core.Interfaces.Services.Blog
             );
 
         Task InsertTopicAsync(Topic topic);
+        Task InsertRangeTopicAsync(List<Topic> topics);
         void UpdateTopic(Topic topic);
         Task<Topic> GetTopicByIdAsync(int topicId);
+        Task<Topic> GetTopicByNameAsync(string topicName);
+
     }
 }

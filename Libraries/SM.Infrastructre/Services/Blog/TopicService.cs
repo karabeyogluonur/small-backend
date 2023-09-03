@@ -38,7 +38,17 @@ namespace SM.Infrastructre.Services.Blog
 
         public async Task<Topic> GetTopicByIdAsync(int topicId)
         {
-            return await _topicRepository.GetFirstOrDefaultAsync(predicate:topic => topic.Id == topicId);
+            return await _topicRepository.GetFirstOrDefaultAsync(predicate:topic => topic.Id == topicId,disableTracking:false);
+        }
+
+        public async Task<Topic> GetTopicByNameAsync(string topicName)
+        {
+            return await _topicRepository.GetFirstOrDefaultAsync(predicate: topic => topic.Name.ToLower() == topicName.ToLower(),disableTracking:false);
+        }
+
+        public async Task InsertRangeTopicAsync(List<Topic> topics)
+        {
+            await _topicRepository.InsertAsync(topics);
         }
 
         public async Task InsertTopicAsync(Topic topic)
