@@ -108,6 +108,7 @@ namespace SM.Infrastructre.Utilities
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<ITopicService,TopicService>();
             services.AddTransient<IArticleService, ArticleService>();
+            services.AddTransient<ICommentService, CommentService>();
             #endregion
         }
     }

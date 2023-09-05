@@ -32,6 +32,15 @@
     <None Remove="DTOs\Membership\" />
     <None Remove="Features\Articles\UpdateTopic\" />
     <None Remove="Features\Articles\PublishArticle\" />
+    <None Remove="Features\Comments\" />
+    <None Remove="Features\Articles\InsertComment\" />
+    <None Remove="Features\Articles\GetComment\" />
+    <None Remove="Features\Comments\DeleteComment\" />
+    <None Remove="Features\Comments\UpdateComment\" />
+    <None Remove="Features\Comments\InsertReply\" />
+    <None Remove="Common\Enums\Blog\" />
+    <None Remove="Features\Comments\DeleteReply\" />
+    <None Remove="Features\Comments\GetReply\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -46,5 +55,15 @@
     <Folder Include="DTOs\Membership\" />
     <Folder Include="Features\Articles\UpdateTopic\" />
     <Folder Include="Features\Articles\PublishArticle\" />
+    <Folder Include="Features\Comments\" />
+    <Folder Include="Features\Articles\InsertComment\" />
+    <Folder Include="Features\Articles\GetComment\" />
+    <Folder Include="Features\Comments\" />
+    <Folder Include="Features\Comments\DeleteComment\" />
+    <Folder Include="Features\Comments\UpdateComment\" />
+    <Folder Include="Features\Comments\InsertReply\" />
+    <Folder Include="Common\Enums\Blog\" />
+    <Folder Include="Features\Comments\DeleteReply\" />
+    <Folder Include="Features\Comments\GetReply\" />
   </ItemGroup>
 </Project>

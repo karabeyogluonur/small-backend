@@ -11,7 +11,16 @@ namespace SM.Core.Common.Enums.Collections
         #endregion
 
         #region Article
+
         GetAllArticle = 10,
+
+        #endregion
+
+        #region Comment
+
+        GetComment = 10,
+        GetReply = 5
+
         #endregion
     }
 }

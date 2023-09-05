@@ -4,10 +4,13 @@ using SM.Core.DTOs.Auth;
 using SM.Core.DTOs.Blog;
 using SM.Core.DTOs.Membership;
 using SM.Core.Features.Articles.GetAllArticle;
+using SM.Core.Features.Articles.GetComment;
 using SM.Core.Features.Articles.UpdateArticle;
 using SM.Core.Features.Auth.Login;
 using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
+using SM.Core.Features.Comments.GetReply;
+using SM.Core.Features.Comments.InsertReply;
 using SM.Core.Features.Topics.GetAllTopic;
 using SM.Core.Features.Topics.SearchTopic;
 using SM.Core.Interfaces.Collections;
@@ -56,7 +59,27 @@ namespace SM.Core.Mappers.AutoMapper
 
             CreateMap<Article, UpdateArticleRequest>().ForMember(article => article.ArticleId, opt => opt.Ignore()).ReverseMap();
             CreateMap<Article, UpdateArticleResponse>().ReverseMap();
-            
+
+            #endregion
+
+            #region Comment
+
+            CreateMap<Comment, CommentDTO>()
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
+                .ReverseMap();
+            CreateMap<InsertReplyRequest, CommentReply>();
+
+            CreateMap<CommentReply, CommentReplyDTO>()
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))
+                .ReverseMap();
+
+            CreateMap<IPagedList<Comment>, GetCommentResponse>().ForMember(dest => dest.Items,
+                opt => opt.MapFrom(src => src.Items)).ReverseMap();
+
+            CreateMap<IPagedList<CommentReply>, GetReplyResponse>().ForMember(dest => dest.Items,
+                opt => opt.MapFrom(src => src.Items)).ReverseMap();
+
+
             #endregion
 
 
