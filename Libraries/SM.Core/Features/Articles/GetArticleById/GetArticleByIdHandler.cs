@@ -29,11 +29,6 @@ namespace SM.Core.Features.Articles.GetArticleById
             if (article == null)
                 return ApiResponse<GetArticleByIdResponse>.Error(null, "Article not found");
 
-            ApplicationUser currentUser = await _authService.GetAuthenticatedCustomerAsync();
-
-            if (article.AuthorId != currentUser.Id)
-                throw new UnauthorizedAccessException("You are not authorized for this article.");
-
             GetArticleByIdResponse getArticleByIdResponse = new GetArticleByIdResponse { Article = _mapper.Map<ArticleDTO>(article) };
             return ApiResponse<GetArticleByIdResponse>.Successful(getArticleByIdResponse, "The article has been successfully listed.");
             

@@ -59,7 +59,6 @@ namespace SM.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
             ApiResponse<GetArticleByIdResponse> apiResponse = await _mediator.Send(new GetArticleByIdRequest() { articleId = id });
