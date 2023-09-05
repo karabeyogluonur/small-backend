@@ -27,11 +27,11 @@ namespace SM.Core.Features.Articles.PublishArticle
 
             ApplicationUser author = await _authService.GetAuthenticatedCustomerAsync();
 
-            if (article.AuthorId == author.Id)
+            if (article.AuthorId != author.Id)
                 throw new UnauthorizedAccessException("You are not authorized for this article.");
 
             if (article.Published)
-                return ApiResponse<PublishArticleResponse>.Error(null, "The article has already been published.");
+                return ApiResponse<PublishArticleResponse>.Error(null, "The article is already been published.");
 
             if (string.IsNullOrEmpty(article.Title) || string.IsNullOrEmpty(article.Content))
                 return ApiResponse<PublishArticleResponse>.Error(null, "Title and content of the article cannot be empty");
