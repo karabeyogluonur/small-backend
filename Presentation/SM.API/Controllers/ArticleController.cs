@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Articles.GetAllArticle;
 using SM.Core.Features.Articles.GetArticleById;
+using SM.Core.Features.Articles.GetComment;
 using SM.Core.Features.Articles.InsertArticle;
+using SM.Core.Features.Articles.InsertComment;
 using SM.Core.Features.Articles.PublishArticle;
 using SM.Core.Features.Articles.UpdateArticle;
 using SM.Core.Features.Articles.UpdateTopic;
@@ -60,7 +62,7 @@ namespace SM.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            ApiResponse<GetArticleByIdResponse> apiResponse = await _mediator.Send(new GetArticleByIdRequest(){articleId = id});
+            ApiResponse<GetArticleByIdResponse> apiResponse = await _mediator.Send(new GetArticleByIdRequest() { articleId = id });
 
             if (apiResponse.Success)
                 return Ok(apiResponse);
@@ -84,13 +86,40 @@ namespace SM.API.Controllers
         [Authorize]
         public async Task<IActionResult> Publish([FromRoute] int id)
         {
-            ApiResponse<PublishArticleResponse> apiResponse = await _mediator.Send(new PublishArticleRequest{ ArticleId = id});
+            ApiResponse<PublishArticleResponse> apiResponse = await _mediator.Send(new PublishArticleRequest { ArticleId = id });
 
             if (apiResponse.Success)
                 return Ok(apiResponse);
             else
                 return BadRequest(apiResponse);
         }
+
+        #region Comments
+
+        [HttpPost("{articleId}/comments")]
+        [Authorize]
+        public async Task<IActionResult> InsertComment([FromBody] InsertCommentRequest insertCommentRequest, [FromRoute] int articleId)
+        {
+            insertCommentRequest.ArticleId = articleId;
+            ApiResponse<InsertCommentResponse> apiResponse = await _mediator.Send(insertCommentRequest);
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+
+        [HttpGet("{articleId}/comments")]
+        public async Task<IActionResult> GetComments(GetCommentRequest getCommentRequest)
+        {
+            ApiResponse<GetCommentResponse> apiResponse = await _mediator.Send(getCommentRequest);
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+        #endregion
 
     }
 }
