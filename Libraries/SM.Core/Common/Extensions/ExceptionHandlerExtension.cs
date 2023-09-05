@@ -22,7 +22,9 @@ namespace SM.Core.Common.Extensions
                     {
                         switch (contextFeature.Error)
                         {
-                            case UserNotFoundException e:
+                            case UserNotFoundException:
+                            case AuthenticationErrorException:
+                            case UnauthorizedAccessException:
                                 context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                                 break;
                             default:
