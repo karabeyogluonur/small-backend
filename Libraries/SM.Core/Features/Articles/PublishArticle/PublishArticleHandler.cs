@@ -2,6 +2,7 @@
 using MediatR;
 using SM.Core.Common;
 using SM.Core.Domain;
+using SM.Core.Interfaces.Services;
 using SM.Core.Interfaces.Services.Auth;
 using SM.Core.Interfaces.Services.Blog;
 
@@ -10,12 +11,14 @@ namespace SM.Core.Features.Articles.PublishArticle
     public class PublishArticleHandler : IRequestHandler<PublishArticleRequest, ApiResponse<PublishArticleResponse>>
     {
         private readonly IArticleService _articleService;
+        private readonly IWorkContext _workContext;
         private readonly IAuthService _authService;
 
-        public PublishArticleHandler(IArticleService articleService, IAuthService authService)
+        public PublishArticleHandler(IArticleService articleService, IAuthService authService, IWorkContext workContext)
         {
             _articleService = articleService;
             _authService = authService;
+            _workContext = workContext;
         }
 
         public async Task<ApiResponse<PublishArticleResponse>> Handle(PublishArticleRequest request, CancellationToken cancellationToken)
@@ -25,9 +28,7 @@ namespace SM.Core.Features.Articles.PublishArticle
             if (article == null || article.Deleted)
                 return ApiResponse<PublishArticleResponse>.Error(null, "Article is not found");
 
-            ApplicationUser author = await _authService.GetAuthenticatedCustomerAsync();
-
-            if (article.AuthorId != author.Id)
+            if (article.AuthorId != await _workContext.GetAuthenticatedUserIdAsync())
                 throw new UnauthorizedAccessException("You are not authorized for this article.");
 
             if (article.Published)

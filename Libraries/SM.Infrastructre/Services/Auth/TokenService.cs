@@ -43,7 +43,8 @@ namespace SM.Infrastructre.Services.Auth
                 expires: tokenDTO.Expiration,
                 notBefore: DateTime.UtcNow,
                 signingCredentials: signingCredentials,
-                claims: new List<Claim> { new Claim(ClaimTypes.Name, applicationUser.UserName) }
+                claims: new List<Claim> { new Claim(ClaimTypes.Name, applicationUser.UserName),
+                                          new Claim(ClaimTypes.NameIdentifier, applicationUser.Id.ToString())}
                 );
 
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new JwtSecurityTokenHandler();

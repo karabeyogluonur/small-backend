@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SM.Core.Domain;
 using SM.Core.Interfaces.Repositores;
+using SM.Core.Interfaces.Services;
 using SM.Core.Interfaces.Services.Auth;
 using SM.Core.Interfaces.Services.Blog;
 using SM.Core.Interfaces.Services.Media;
@@ -14,6 +15,7 @@ using SM.Core.Interfaces.Services.Membership;
 using SM.Core.Interfaces.Services.Notification;
 using SM.Infrastructre.Persistence.Contexts;
 using SM.Infrastructre.Persistence.Repositories;
+using SM.Infrastructre.Services;
 using SM.Infrastructre.Services.Auth;
 using SM.Infrastructre.Services.Blog;
 using SM.Infrastructre.Services.Media;
@@ -109,6 +111,13 @@ namespace SM.Infrastructre.Utilities
             services.AddTransient<ITopicService,TopicService>();
             services.AddTransient<IArticleService, ArticleService>();
             services.AddTransient<ICommentService, CommentService>();
+
+
+
+
+
+
+            services.AddScoped<IWorkContext, WorkContext>();
             #endregion
         }
     }

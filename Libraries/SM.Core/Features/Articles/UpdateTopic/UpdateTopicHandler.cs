@@ -4,6 +4,7 @@ using MediatR;
 using SM.Core.Common;
 using SM.Core.Domain;
 using SM.Core.DTOs.Blog;
+using SM.Core.Interfaces.Services;
 using SM.Core.Interfaces.Services.Auth;
 using SM.Core.Interfaces.Services.Blog;
 
@@ -13,15 +14,15 @@ namespace SM.Core.Features.Articles.UpdateTopic
 	{
         private readonly ITopicService _topicService;
         private readonly IArticleService _articleService;
-        private readonly IAuthService _authService;
+        private readonly IWorkContext _workContext;
         private readonly IMapper _mapper;
 
-        public UpdateTopicHandler(IAuthService authService, IArticleService articleService, ITopicService topicService, IMapper mapper)
+        public UpdateTopicHandler(IArticleService articleService, ITopicService topicService, IMapper mapper, IWorkContext workContext)
         {
             _articleService = articleService;
             _topicService = topicService;
-            _authService = authService;
             _mapper = mapper;
+            _workContext = workContext;
         }
 
         public async Task<ApiResponse<UpdateTopicResponse>> Handle(UpdateTopicRequest request, CancellationToken cancellationToken)
@@ -39,9 +40,7 @@ namespace SM.Core.Features.Articles.UpdateTopic
             if (article == null)
                 return ApiResponse<UpdateTopicResponse>.Error(null, "Article is not found");
 
-            ApplicationUser author = await _authService.GetAuthenticatedCustomerAsync();
-
-            if (article.AuthorId != author.Id)
+            if (article.AuthorId != await _workContext.GetAuthenticatedUserIdAsync())
                 throw new UnauthorizedAccessException("You are not authorized for this article");
 
             List<Topic> newTopics = await PrepareNewTopicsAsync(request.TopicNames);
