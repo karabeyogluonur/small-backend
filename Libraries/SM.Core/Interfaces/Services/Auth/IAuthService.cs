@@ -18,6 +18,5 @@ namespace SM.Core.Interfaces.Services.Auth
         Task<string> ForgotPasswordAsync(string email);
         Task<bool> ResetPasswordConfirmationAsync(string resetPasswordToken);
         Task<IdentityResult> ResetPasswordAsync(string resetPasswordToken,string newPassword);
-        Task<ApplicationUser> GetAuthenticatedCustomerAsync();
     }
 }

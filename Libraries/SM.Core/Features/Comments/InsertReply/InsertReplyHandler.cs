@@ -5,6 +5,7 @@ using SM.Core.Common;
 using SM.Core.Common.Enums.Blog;
 using SM.Core.Domain;
 using SM.Core.DTOs.Blog;
+using SM.Core.Interfaces.Services;
 using SM.Core.Interfaces.Services.Auth;
 using SM.Core.Interfaces.Services.Blog;
 
@@ -14,12 +15,14 @@ namespace SM.Core.Features.Comments.InsertReply
     {
         private readonly ICommentService _commentService;
         private readonly IAuthService _authService;
+        private readonly IWorkContext _workContext;
         private readonly IMapper _mapper;
 
-        public InsertReplyHandler(ICommentService commentService, IAuthService authService, IMapper mapper)
+        public InsertReplyHandler(ICommentService commentService, IAuthService authService, IMapper mapper, IWorkContext workContext)
         {
             _commentService = commentService;
             _authService = authService;
+            _workContext = workContext;
             _mapper = mapper;
         }
 
@@ -32,9 +35,7 @@ namespace SM.Core.Features.Comments.InsertReply
 
             CommentReply commentReply = _mapper.Map<CommentReply>(request);
 
-            ApplicationUser applicationUser = await _authService.GetAuthenticatedCustomerAsync();
-
-            commentReply.AuthorId = applicationUser.Id;
+            commentReply.AuthorId = await _workContext.GetAuthenticatedUserIdAsync();
 
             await _commentService.InsertCommentReplyAsync(commentReply);
 

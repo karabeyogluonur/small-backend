@@ -49,20 +49,6 @@ namespace SM.Infrastructre.Services.Auth
             return passwordResetToken;
         }
 
-        public async Task<ApplicationUser> GetAuthenticatedCustomerAsync()
-        {
-            AuthenticateResult authenticateResult = await _httpContextAccessor.HttpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
-            if (!authenticateResult.Succeeded)
-                return null;
-
-            Claim? claim = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Name);
-
-            if (claim == null)
-                return null;
-
-            return await _userManager.FindByEmailAsync(claim.Value);
-        }
-
         public async Task<TokenDTO> RefreshTokenSignInAsync(string refreshToken)
         {
             ApplicationUser applicationUser = await _userManager.Users.FirstOrDefaultAsync(user => user.RefreshToken == refreshToken);
