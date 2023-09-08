@@ -42,6 +42,7 @@
     <None Remove="Features\Comments\DeleteReply\" />
     <None Remove="Features\Comments\GetReply\" />
     <None Remove="Features\Profiles\" />
+    <None Remove="Features\Articles\SearchArticle\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -68,5 +69,6 @@
     <Folder Include="Features\Comments\GetReply\" />
     <Folder Include="Features\Profiles\" />
     <Folder Include="Features\Profiles\Me\" />
+    <Folder Include="Features\Articles\SearchArticle\" />
   </ItemGroup>
 </Project>
