@@ -8,9 +8,11 @@ using SM.Core.Features.Articles.GetComment;
 using SM.Core.Features.Articles.InsertArticle;
 using SM.Core.Features.Articles.InsertComment;
 using SM.Core.Features.Articles.PublishArticle;
+using SM.Core.Features.Articles.SearchArticle;
 using SM.Core.Features.Articles.UpdateArticle;
 using SM.Core.Features.Articles.UpdateTopic;
 using SM.Core.Features.Articles.UploadArticleImage;
+using SM.Core.Features.Topics.SearchTopic;
 
 namespace SM.API.Controllers
 {
@@ -27,6 +29,12 @@ namespace SM.API.Controllers
         public async Task<IActionResult> GetAll([FromQuery] GetAllArticleRequest getAllArticleRequest)
         {
             ApiResponse<GetAllArticleResponse> apiResponse = await _mediator.Send(getAllArticleRequest);
+            return Ok(apiResponse);
+        }
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] SearchArticleRequest searchArticleRequest)
+        {
+            ApiResponse<SearchArticleResponse> apiResponse = await _mediator.Send(searchArticleRequest);
             return Ok(apiResponse);
         }
 

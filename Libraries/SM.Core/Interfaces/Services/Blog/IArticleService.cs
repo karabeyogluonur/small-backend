@@ -18,9 +18,7 @@ namespace SM.Core.Interfaces.Services.Blog
         Task<IPagedList<Article>> SearchArticlesAsync(
             string searchKeywords,
             int pageIndex = 0,
-            int pageSize = int.MaxValue,
-            bool includeTopics = true,
-            bool includeAuthor = true
+            int pageSize = int.MaxValue
             );
 
         Task<Article> GetArticleByIdAsync(int articleId);

@@ -83,20 +83,21 @@ namespace SM.Infrastructre.Services.Blog
         public async Task<IPagedList<Article>> SearchArticlesAsync(
             string searchKeywords,
             int pageIndex = 0,
-            int pageSize = int.MaxValue,
-            bool includeTopics = true,
-            bool includeAuthor = true)
+            int pageSize = int.MaxValue)
         {
-            IQueryable<Article> articles = _articleRepository.GetAll();
+            IQueryable<Article> articles = _articleRepository.GetAll(include:inc=>inc.Include(article=>article.Topics)
+                                                                                     .Include(article=>article.Author)
+                                                                                      );
 
             if (!String.IsNullOrEmpty(searchKeywords))
-                articles = articles.Where(article => article.Title.Contains(searchKeywords) || article.Content.Contains(searchKeywords));
-
-            if (includeTopics)
-                articles = articles.Include(article => article.Topics);
-
-            if (includeAuthor)
-                articles = articles.Include(article => article.Author);
+                articles = articles.Where(article => (
+                                                        article.Title.ToLower().Contains(searchKeywords) ||
+                                                        article.Topics.Any(topic => topic.Name.ToLower().Contains(searchKeywords.ToLower()))
+                                                     ) &&
+                                                     (
+                                                        article.Deleted == false && article.Published == true
+                                                     ) 
+                                                     );
 
             return await articles.ToPagedListAsync(pageIndex:pageIndex,pageSize:pageSize);
         }

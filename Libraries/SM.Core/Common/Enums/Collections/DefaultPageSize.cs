@@ -13,6 +13,7 @@ namespace SM.Core.Common.Enums.Collections
         #region Article
 
         GetAllArticle = 10,
+        SearchArticle = 5,
 
         #endregion
 
