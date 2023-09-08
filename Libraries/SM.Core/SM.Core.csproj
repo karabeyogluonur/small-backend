@@ -41,6 +41,7 @@
     <None Remove="Common\Enums\Blog\" />
     <None Remove="Features\Comments\DeleteReply\" />
     <None Remove="Features\Comments\GetReply\" />
+    <None Remove="Features\Profiles\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -65,5 +66,7 @@
     <Folder Include="Common\Enums\Blog\" />
     <Folder Include="Features\Comments\DeleteReply\" />
     <Folder Include="Features\Comments\GetReply\" />
+    <Folder Include="Features\Profiles\" />
+    <Folder Include="Features\Profiles\Me\" />
   </ItemGroup>
 </Project>
