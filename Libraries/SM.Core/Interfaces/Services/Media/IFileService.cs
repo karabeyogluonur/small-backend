@@ -12,5 +12,6 @@ namespace SM.Core.Interfaces.Services.Media
     public interface IFileService
     {
         Task<FileInformationDTO> UploadAsync(IFormFile formFile, RegisteredFileType registeredFileType);
+        Task DeleteAsync(string fileName, RegisteredFileType registeredFileType);
     }
 }

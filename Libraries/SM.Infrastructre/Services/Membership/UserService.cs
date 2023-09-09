@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using SM.Core.Common.Enums.Media;
 using SM.Core.Domain;
+using SM.Core.Interfaces.Services.Media;
 using SM.Core.Interfaces.Services.Membership;
 
 
@@ -10,11 +12,24 @@ namespace SM.Infrastructre.Services.Membership
     {
         private readonly IConfiguration _configuration;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IFileService _fileService;
 
-        public UserService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public UserService(UserManager<ApplicationUser> userManager, IConfiguration configuration,IFileService fileService)
         {
             _userManager = userManager;
             _configuration = configuration;
+            _fileService = fileService;
+        }
+
+        public async Task ChangeAvatarImageAsync(string avatarImageName, int userId)
+        {
+            ApplicationUser applicationUser = await _userManager.FindByIdAsync(userId.ToString());
+
+            if (applicationUser.AvatarImagePath != null)
+                await _fileService.DeleteAsync(applicationUser.AvatarImagePath, RegisteredFileType.Avatars);
+
+            applicationUser.AvatarImagePath = avatarImageName;
+            await _userManager.UpdateAsync(applicationUser);
         }
 
         public async Task UpdatePasswordResetTokenAsync(ApplicationUser applicationUser, string passwordResetToken)
