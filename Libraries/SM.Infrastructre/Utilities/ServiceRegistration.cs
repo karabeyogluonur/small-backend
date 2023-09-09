@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using SM.Core.Common;
 using SM.Core.Domain;
 using SM.Core.Interfaces.Repositores;
 using SM.Core.Interfaces.Services;
@@ -21,7 +23,9 @@ using SM.Infrastructre.Services.Blog;
 using SM.Infrastructre.Services.Media;
 using SM.Infrastructre.Services.Membership;
 using SM.Infrastructre.Services.Notification;
+using System.Net.Mime;
 using System.Text;
+using System.Text.Json;
 
 namespace SM.Infrastructre.Utilities
 {
@@ -80,6 +84,7 @@ namespace SM.Infrastructre.Utilities
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+
             }).AddJwtBearer(options =>
             {
                 options.SaveToken = true;
@@ -95,6 +100,17 @@ namespace SM.Infrastructre.Utilities
                     ValidIssuer = configuration["JWT:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:SecurityKey"])),
 
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnChallenge = async context =>
+                    {
+                        context.HandleResponse();
+                        context.Response.ContentType = MediaTypeNames.Application.Json;
+                        context.Response.StatusCode = 401;
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(ApiResponse<object>.Error(null,"Authorization failed.")));
+                    }
                 };
             });
 
