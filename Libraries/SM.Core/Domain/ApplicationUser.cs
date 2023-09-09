@@ -14,5 +14,7 @@ namespace SM.Core.Domain
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiration { get; set; }
         public string? PasswordResetToken { get; set; }
+        public string? AvatarImagePath { get; set; }
     }
 }
+ 

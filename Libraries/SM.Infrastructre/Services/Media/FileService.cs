@@ -7,6 +7,7 @@ using SM.Core.DTOs.Media;
 using SM.Core.Interfaces.Services.Media;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,12 +16,15 @@ namespace SM.Infrastructre.Services.Media
 {
     public class FileService : IFileService
     {
-        public readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
-        public FileService(IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public FileService(IWebHostEnvironment webHostEnvironment, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
         }
         private async Task CopyFileAsync(string path, IFormFile file)
         {
@@ -39,12 +43,13 @@ namespace SM.Infrastructre.Services.Media
 
         private string GenerateFileUrl(string fileName,RegisteredFileType registeredFileType)
         {
-            string CDN = _configuration["Common:CDN"];
+            string cdnUrl = _configuration["Common:CDN"];
 
-            if (!String.IsNullOrEmpty(CDN))
-                return Path.Combine(CDN, Path.Combine("resources",registeredFileType.ToString()), fileName);
-            else
-                return Path.Combine(_configuration["Common:Host"],Path.Combine("resources", registeredFileType.ToString(),fileName));
+            if (!String.IsNullOrEmpty(cdnUrl))
+                return Path.Combine(cdnUrl, Path.Combine("resources",registeredFileType.ToString()), fileName);
+
+
+            return Path.Combine(_configuration["Common:Host"], Path.Combine("resources", registeredFileType.ToString()), fileName);
         }
 
         private async Task<string> FileRenameAsync(string fileName, string path, bool overwrite = false)
@@ -56,40 +61,30 @@ namespace SM.Infrastructre.Services.Media
                 string regulatedFileName = FileHelper.CharacterRegularity(oldFileName);
 
                 var files = Directory.GetFiles(path, regulatedFileName + "*");
-
-                if (files.Length == 0) return regulatedFileName + extension;
-
-                if (files.Length == 1) return regulatedFileName + "-2" + extension;
-
-                int[] fileNumbers = new int[files.Length];
-                int lastHyphenIndex;
-                for (int i = 0; i < files.Length; i++)
-                {
-                    lastHyphenIndex = files[i].LastIndexOf("-");
-                    if (lastHyphenIndex == -1)
-                        fileNumbers[i] = 1;
-                    else
-                        fileNumbers[i] = int.Parse(files[i].Substring(lastHyphenIndex + 1, files[i].Length - extension.Length - lastHyphenIndex - 1));
-                }
-                var biggestNumber = fileNumbers.Max();
-                biggestNumber++;
-                return regulatedFileName + "-" + biggestNumber + extension;
+                return FileHelper.CharacterRegularity(DateTime.Now.ToString()) + "-" + regulatedFileName + extension;
             });
 
         }
 
         public async Task<FileInformationDTO> UploadAsync(IFormFile formFile, RegisteredFileType registeredFileType)
         {
-            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath,"resources", registeredFileType.ToString());
+            string filePath = Path.Combine("resources", registeredFileType.ToString());
+            string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath,filePath);
 
             if (!Directory.Exists(uploadPath))
-                Directory.CreateDirectory(uploadPath); 
+                Directory.CreateDirectory(uploadPath);
 
             var newFileName = await FileRenameAsync(formFile.FileName, uploadPath);
 
             await CopyFileAsync(Path.Combine(uploadPath, newFileName), formFile);
 
-            return new FileInformationDTO(newFileName,GenerateFileUrl(newFileName,registeredFileType));
+            return new FileInformationDTO(newFileName,Path.Combine(filePath,newFileName),GenerateFileUrl(newFileName,registeredFileType));
+        }
+
+        public async Task DeleteAsync(string fileName, RegisteredFileType registeredFileType)
+        {
+            string path = Path.Combine(_webHostEnvironment.WebRootPath, "resources", registeredFileType.ToString());
+            File.Delete(Path.Combine(path, fileName));
         }
     }
 }

@@ -43,6 +43,7 @@
     <None Remove="Features\Comments\GetReply\" />
     <None Remove="Features\Profiles\" />
     <None Remove="Features\Articles\SearchArticle\" />
+    <None Remove="Features\Profiles\UploadAvatarImage\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -70,5 +71,6 @@
     <Folder Include="Features\Profiles\" />
     <Folder Include="Features\Profiles\Me\" />
     <Folder Include="Features\Articles\SearchArticle\" />
+    <Folder Include="Features\Profiles\UploadAvatarImage\" />
   </ItemGroup>
 </Project>
