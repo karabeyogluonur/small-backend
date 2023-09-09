@@ -66,7 +66,7 @@ namespace SM.API.Controllers
                 string refreshToken = HttpContext.Request.Cookies.FirstOrDefault(cookie => cookie.Key == "refreshToken").Value;
 
                 if (String.IsNullOrEmpty(refreshToken))
-                    return Unauthorized(ApiResponse<object>.Successful(null, "You are not authenticated."));
+                    return Unauthorized(ApiResponse<object>.Error(null, "You are not authenticated."));
 
                 else
                     refreshTokenRequest = new RefreshTokenRequest(){RefreshToken = refreshToken};
