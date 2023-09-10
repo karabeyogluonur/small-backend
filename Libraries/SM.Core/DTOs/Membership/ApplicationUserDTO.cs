@@ -8,6 +8,7 @@ namespace SM.Core.DTOs.Membership
 		public string LastName { get; set; }
 		public string Email { get; set; }
 		public string UserName { get; set; }
-	}
+        public string AvatarImagePath { get; set; }
+    }
 }
 

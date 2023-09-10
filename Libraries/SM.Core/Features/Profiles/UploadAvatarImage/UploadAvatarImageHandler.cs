@@ -25,10 +25,10 @@ namespace SM.Core.Features.Profiles.UploadAvatarImage
         public async Task<ApiResponse<UploadAvatarImageResponse>> Handle(UploadAvatarImageRequest request, CancellationToken cancellationToken)
         {
             FileInformationDTO fileInformationDTO = await _fileService.UploadAsync(request.File, RegisteredFileType.Avatars);
-            await _userService.ChangeAvatarImageAsync(fileInformationDTO.FileName, await _workContext.GetAuthenticatedUserIdAsync());
-            UploadAvatarImageResponse UploadAvatarImage = new UploadAvatarImageResponse { ProfileImage = fileInformationDTO };
+            await _userService.ChangeAvatarImageAsync(fileInformationDTO.FullPath, await _workContext.GetAuthenticatedUserIdAsync());
+            UploadAvatarImageResponse UploadAvatarImage = new UploadAvatarImageResponse { AvatarImage = fileInformationDTO };
 
-            return ApiResponse<UploadAvatarImageResponse>.Successful(UploadAvatarImage, "Profile image added.");
+            return ApiResponse<UploadAvatarImageResponse>.Successful(UploadAvatarImage, "Avatar image added.");
 
         }
     }
