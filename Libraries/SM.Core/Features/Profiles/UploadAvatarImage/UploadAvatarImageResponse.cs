@@ -5,7 +5,7 @@ namespace SM.Core.Features.Profiles.UploadProfileImage
 {
 	public class UploadAvatarImageResponse
 	{
-		public FileInformationDTO ProfileImage { get; set; }
+		public FileInformationDTO AvatarImage { get; set; }
 	}
 }
 
