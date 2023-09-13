@@ -63,7 +63,6 @@ namespace SM.Infrastructre.Services.Auth
 
         public async Task<IdentityResult> RegisterAsync(ApplicationUser applicationUser, string password)
         {
-            applicationUser.UserName = applicationUser.Email;
             return await _userManager.CreateAsync(applicationUser, password);
         }
 
@@ -89,9 +88,12 @@ namespace SM.Infrastructre.Services.Auth
             
         }
 
-        public async Task<TokenDTO> SignInAsync(string email, string password)
+        public async Task<TokenDTO> SignInAsync(string emailOrUserName, string password)
         {
-            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(email);
+            ApplicationUser applicationUser = await _userManager.FindByEmailAsync(emailOrUserName);
+
+            if (applicationUser == null)
+                applicationUser = await _userManager.FindByNameAsync(emailOrUserName);
 
             if (applicationUser == null)
                 throw new UserNotFoundException();

@@ -24,7 +24,7 @@ namespace SM.Core.Features.Auth.Login
 
         public async Task<ApiResponse<LoginResponse>> Handle(LoginRequest request, CancellationToken cancellationToken)
         {
-            TokenDTO tokenDTO = await _authService.SignInAsync(request.Email,request.Password);
+            TokenDTO tokenDTO = await _authService.SignInAsync(request.EmailOrUserName,request.Password);
 
             LoginResponse loginResponse = _mapper.Map<LoginResponse>(tokenDTO);
 

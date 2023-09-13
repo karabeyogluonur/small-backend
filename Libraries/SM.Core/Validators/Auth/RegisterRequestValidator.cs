@@ -16,6 +16,7 @@ namespace SM.Core.Validators.Auth
             RuleFor(register => register.LastName).NotEmpty().NotNull();
             RuleFor(register => register.Email).NotEmpty().NotNull().EmailAddress();
             RuleFor(register => register.Password).NotEmpty().NotNull();
+            RuleFor(register => register.UserName).NotEmpty().NotNull();
 
         }
     }
