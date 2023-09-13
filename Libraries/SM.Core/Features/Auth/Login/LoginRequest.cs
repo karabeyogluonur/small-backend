@@ -10,7 +10,7 @@ namespace SM.Core.Features.Auth.Login
 {
     public class LoginRequest : IRequest<ApiResponse<LoginResponse>>
     {
-        public string Email { get; set; }
+        public string EmailOrUserName { get; set; }
         public string Password { get; set; }
     }
 }

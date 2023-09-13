@@ -12,7 +12,7 @@ namespace SM.Core.Validators.Auth
     {
         public LoginRequestValidator()
         {
-            RuleFor(login => login.Email).EmailAddress().NotNull().NotEmpty();
+            RuleFor(login => login.EmailOrUserName).NotNull().NotEmpty();
             RuleFor(login => login.Password).NotNull().NotEmpty();
 
         }

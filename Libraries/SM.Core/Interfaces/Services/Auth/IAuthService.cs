@@ -12,7 +12,7 @@ namespace SM.Core.Interfaces.Services.Auth
 {
     public interface IAuthService
     {
-        Task<TokenDTO> SignInAsync(string email, string password);
+        Task<TokenDTO> SignInAsync(string emailOrUserName, string password);
         Task<IdentityResult> RegisterAsync(ApplicationUser applicationUser,string password);
         Task<TokenDTO> RefreshTokenSignInAsync(string refreshToken);
         Task<string> ForgotPasswordAsync(string email);
