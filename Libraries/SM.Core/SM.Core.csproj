@@ -44,6 +44,7 @@
     <None Remove="Features\Profiles\" />
     <None Remove="Features\Articles\SearchArticle\" />
     <None Remove="Features\Profiles\UploadAvatarImage\" />
+    <None Remove="Features\Auth\Logout\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -72,5 +73,6 @@
     <Folder Include="Features\Profiles\Me\" />
     <Folder Include="Features\Articles\SearchArticle\" />
     <Folder Include="Features\Profiles\UploadAvatarImage\" />
+    <Folder Include="Features\Auth\Logout\" />
   </ItemGroup>
 </Project>

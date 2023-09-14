@@ -7,6 +7,7 @@ using SM.Core.Common.Exceptions;
 using SM.Core.Domain;
 using SM.Core.DTOs.Auth;
 using SM.Core.Features.Auth.Register;
+using SM.Core.Interfaces.Services;
 using SM.Core.Interfaces.Services.Auth;
 using SM.Core.Interfaces.Services.Membership;
 using System;
@@ -25,14 +26,16 @@ namespace SM.Infrastructre.Services.Auth
         private readonly ITokenService _tokenService;
         private readonly IUserService _userService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IWorkContext _workContext;
 
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService, IUserService userService, IHttpContextAccessor httpContextAccessor)
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ITokenService tokenService, IUserService userService, IHttpContextAccessor httpContextAccessor, IWorkContext workContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
             _userService = userService;
             _httpContextAccessor = httpContextAccessor;
+            _workContext = workContext;
         }
 
         public async Task<string> ForgotPasswordAsync(string email)
@@ -107,6 +110,11 @@ namespace SM.Infrastructre.Services.Auth
             await _userService.UpdateRefreshTokenAsync(applicationUser, tokenDTO.RefreshToken);
 
             return tokenDTO;
+        }
+
+        public async Task SignOutAsync()
+        {
+            await _signInManager.SignOutAsync();          
         }
     }
 }
