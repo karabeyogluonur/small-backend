@@ -45,6 +45,8 @@
     <None Remove="Features\Articles\SearchArticle\" />
     <None Remove="Features\Profiles\UploadAvatarImage\" />
     <None Remove="Features\Auth\Logout\" />
+    <None Remove="Features\Users\" />
+    <None Remove="Features\Users\GetByUsername\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -74,5 +76,7 @@
     <Folder Include="Features\Articles\SearchArticle\" />
     <Folder Include="Features\Profiles\UploadAvatarImage\" />
     <Folder Include="Features\Auth\Logout\" />
+    <Folder Include="Features\Users\" />
+    <Folder Include="Features\Users\GetByUsername\" />
   </ItemGroup>
 </Project>

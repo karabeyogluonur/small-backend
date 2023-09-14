@@ -32,6 +32,11 @@ namespace SM.Infrastructre.Services.Membership
             await _userManager.UpdateAsync(applicationUser);
         }
 
+        public async Task<ApplicationUser> GetUserByUserName(string userName)
+        {
+            return await _userManager.FindByNameAsync(userName);
+        }
+
         public async Task UpdatePasswordResetTokenAsync(ApplicationUser applicationUser, string passwordResetToken)
         {
             applicationUser.PasswordResetToken = passwordResetToken;
