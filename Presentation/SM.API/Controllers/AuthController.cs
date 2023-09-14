@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Auth.ForgotPassword;
 using SM.Core.Features.Auth.Login;
+using SM.Core.Features.Auth.Logout;
 using SM.Core.Features.Auth.RefreshPasswordConfirmation;
 using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
@@ -33,6 +34,15 @@ namespace SM.API.Controllers
 
             return Ok(apiResponse);
         }
+        [HttpDelete]
+        [Route("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            ApiResponse<LogoutResponse> apiResponse = await _mediator.Send(new LogoutRequest());
+            return Ok(apiResponse);
+        }
+
 
         [HttpPost]
         [Route("register")]
