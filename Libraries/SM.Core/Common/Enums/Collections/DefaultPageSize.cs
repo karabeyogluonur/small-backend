@@ -26,7 +26,8 @@ namespace SM.Core.Common.Enums.Collections
 
         #region User
 
-        GetFollower = 10
+        GetFollower = 10,
+        GetFollewed = 10
 
         #endregion
     }

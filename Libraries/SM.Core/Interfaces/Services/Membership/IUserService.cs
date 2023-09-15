@@ -18,6 +18,8 @@ namespace SM.Core.Interfaces.Services.Membership
         Task<Follow> GetFollowAsync(int followeeId, int followerId);
         Task<IPagedList<Follow>> GetFollowersAsync(int userId, int pageIndex = 0,
             int pageSize = int.MaxValue);
+        Task<IPagedList<Follow>> GetFollowedAsync(int userId, int pageIndex = 0,
+            int pageSize = int.MaxValue);
         Task InsertFollowAsync(Follow follow);
         void DeleteFollow(Follow follow);
 
