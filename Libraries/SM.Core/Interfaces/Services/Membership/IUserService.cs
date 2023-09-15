@@ -16,6 +16,7 @@ namespace SM.Core.Interfaces.Services.Membership
         Task<ApplicationUser> GetUserByIdAsync(int userId);
         Task<Follow> GetFollowAsync(int followeeId, int followerId);
         Task InsertFollowAsync(Follow follow);
+        void DeleteFollow(Follow follow);
 
     }
 }

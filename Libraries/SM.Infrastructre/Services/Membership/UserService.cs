@@ -71,5 +71,11 @@ namespace SM.Infrastructre.Services.Membership
             await _followRepository.InsertAsync(follow);
             await _unitOfWork.SaveChangesAsync();
         }
+
+        public async void DeleteFollow(Follow follow)
+        {
+             _followRepository.Delete(follow);
+             _unitOfWork.SaveChanges();
+        }
     }
 }
