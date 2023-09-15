@@ -12,6 +12,10 @@ namespace SM.Core.Interfaces.Services.Membership
         Task UpdateRefreshTokenAsync(ApplicationUser applicationUser, string refreshToken);
         Task UpdatePasswordResetTokenAsync(ApplicationUser applicationUser, string passwordResetToken);
         Task ChangeAvatarImageAsync(string avatarImageName, int userId);
-        Task<ApplicationUser> GetUserByUserName(string userName);
+        Task<ApplicationUser> GetUserByUserNameAsync(string userName);
+        Task<ApplicationUser> GetUserByIdAsync(int userId);
+        Task<Follow> GetFollowAsync(int followeeId, int followerId);
+        Task InsertFollowAsync(Follow follow);
+
     }
 }

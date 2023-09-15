@@ -15,6 +15,9 @@ namespace SM.Core.Domain
         public DateTime? RefreshTokenExpiration { get; set; }
         public string? PasswordResetToken { get; set; }
         public string? AvatarImagePath { get; set; }
+
+        public ICollection<Follow> Follower { get; set; }
+        public ICollection<Follow> Followee { get; set; }
     }
 }
  

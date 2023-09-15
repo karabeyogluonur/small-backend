@@ -47,6 +47,7 @@
     <None Remove="Features\Auth\Logout\" />
     <None Remove="Features\Users\" />
     <None Remove="Features\Users\GetByUsername\" />
+    <None Remove="Features\Users\FollowUser\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -78,5 +79,6 @@
     <Folder Include="Features\Auth\Logout\" />
     <Folder Include="Features\Users\" />
     <Folder Include="Features\Users\GetByUsername\" />
+    <Folder Include="Features\Users\FollowUser\" />
   </ItemGroup>
 </Project>

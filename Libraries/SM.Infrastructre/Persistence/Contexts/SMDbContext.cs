@@ -17,5 +17,30 @@ namespace SM.Infrastructre.Persistence.Contexts
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Comment> Comment { get; set; }
         public DbSet<CommentReply> CommentReplies { get; set; }
+        public DbSet<Follow> Follows { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+
+            #region Follow
+            builder.Entity<Follow>()
+                .HasKey(k => new { k.FollowerId, k.FolloweeId });
+
+            builder.Entity<Follow>()
+                .HasOne(u => u.Followee)
+                .WithMany(u => u.Follower)
+                .HasForeignKey(u => u.FollowerId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<Follow>()
+                .HasOne(u => u.Follower)
+                .WithMany(u => u.Followee)
+                .HasForeignKey(u => u.FolloweeId)
+                .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            base.OnModelCreating(builder);
+
+        }
     }
 }

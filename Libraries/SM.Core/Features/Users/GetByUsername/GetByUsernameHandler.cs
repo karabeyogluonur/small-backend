@@ -21,7 +21,7 @@ namespace SM.Core.Features.Users.GetByUsername
 
         public async Task<ApiResponse<GetByUsernameResponse>> Handle(GetByUsernameRequest request, CancellationToken cancellationToken)
         {
-            ApplicationUser applicationUser =  await _userService.GetUserByUserName(request.Username);
+            ApplicationUser applicationUser =  await _userService.GetUserByUserNameAsync(request.Username);
             GetByUsernameResponse getByUsernameRequest = new GetByUsernameResponse { User = _mapper.Map<ApplicationUserDTO>(applicationUser) };
 
             return ApiResponse<GetByUsernameResponse>.Successful(getByUsernameRequest, "User fetching completed successfully.");
