@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SM.Core.Common.Enums.Media;
 using SM.Core.Domain;
+using SM.Core.Interfaces.Collections;
 using SM.Core.Interfaces.Repositores;
 using SM.Core.Interfaces.Services.Media;
 using SM.Core.Interfaces.Services.Membership;
-
+using SM.Infrastructre.Utilities.Extensions;
 
 namespace SM.Infrastructre.Services.Membership
 {
@@ -76,6 +78,14 @@ namespace SM.Infrastructre.Services.Membership
         {
              _followRepository.Delete(follow);
              _unitOfWork.SaveChanges();
+        }
+
+        public async Task<IPagedList<Follow>> GetFollowersAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            IQueryable<Follow> followers = _followRepository.GetAll(predicate:follow=>follow.FollowerId == userId,
+                                                                    include:inc=>inc.Include(follow=>follow.Follower));
+
+            return await followers.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Users.FollowUser;
 using SM.Core.Features.Users.GetByUsername;
+using SM.Core.Features.Users.GetFollower;
 using SM.Core.Features.Users.UnfollowUser;
 
 namespace SM.API.Controllers
@@ -37,6 +38,15 @@ namespace SM.API.Controllers
         public async Task<IActionResult> UnfollowUser([FromRoute] UnfollowUserRequest unfollowUserRequest)
         {
             ApiResponse<UnfollowUserResponse> apiResponse = await _mediator.Send(unfollowUserRequest);
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+        [HttpGet("{userId}/followers")]
+        public async Task<IActionResult> GetFollowers([FromRoute] GetFollowerRequest getFollowerRequest)
+        {
+            ApiResponse<GetFollowerResponse> apiResponse = await _mediator.Send(getFollowerRequest);
             if (apiResponse.Success)
                 return Ok(apiResponse);
             else

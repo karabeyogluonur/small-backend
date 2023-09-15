@@ -20,7 +20,13 @@ namespace SM.Core.Common.Enums.Collections
         #region Comment
 
         GetComment = 10,
-        GetReply = 5
+        GetReply = 5,
+
+        #endregion
+
+        #region User
+
+        GetFollower = 10
 
         #endregion
     }
