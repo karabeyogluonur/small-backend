@@ -14,6 +14,7 @@ using SM.Core.Features.Comments.GetReply;
 using SM.Core.Features.Comments.InsertReply;
 using SM.Core.Features.Topics.GetAllTopic;
 using SM.Core.Features.Topics.SearchTopic;
+using SM.Core.Features.Users.GetFollower;
 using SM.Core.Interfaces.Collections;
 
 namespace SM.Core.Mappers.AutoMapper
@@ -83,6 +84,18 @@ namespace SM.Core.Mappers.AutoMapper
             CreateMap<IPagedList<CommentReply>, GetReplyResponse>().ForMember(dest => dest.Items,
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
 
+
+            #endregion
+
+            #region User
+
+
+            CreateMap<Follow, FollowDTO>()
+                .ForMember(dest => dest.Followee, opt => opt.MapFrom(src => src.Followee))
+                .ForMember(dest => dest.Follower, opt => opt.MapFrom(src => src.Follower));
+
+            CreateMap<IPagedList<Follow>, GetFollowerResponse>().ForMember(dest => dest.Items,
+                opt => opt.MapFrom(src => src.Items)).ReverseMap();
 
             #endregion
 

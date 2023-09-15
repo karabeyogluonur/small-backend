@@ -1,4 +1,5 @@
 ﻿using SM.Core.Domain;
+using SM.Core.Interfaces.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace SM.Core.Interfaces.Services.Membership
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
         Task<ApplicationUser> GetUserByIdAsync(int userId);
         Task<Follow> GetFollowAsync(int followeeId, int followerId);
+        Task<IPagedList<Follow>> GetFollowersAsync(int userId, int pageIndex = 0,
+            int pageSize = int.MaxValue);
         Task InsertFollowAsync(Follow follow);
         void DeleteFollow(Follow follow);
 
