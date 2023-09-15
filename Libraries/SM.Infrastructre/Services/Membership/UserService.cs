@@ -87,5 +87,13 @@ namespace SM.Infrastructre.Services.Membership
 
             return await followers.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
         }
+
+        public async Task<IPagedList<Follow>> GetFollowedAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            IQueryable<Follow> followers = _followRepository.GetAll(predicate: follow => follow.FolloweeId == userId,
+                                                                     include: inc => inc.Include(follow => follow.Followee));
+
+            return await followers.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
+        }
     }
 }
