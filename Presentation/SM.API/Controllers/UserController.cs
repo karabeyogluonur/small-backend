@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
+using SM.Core.Features.Users.FollowUser;
 using SM.Core.Features.Users.GetByUsername;
 
 namespace SM.API.Controllers
@@ -21,6 +22,17 @@ namespace SM.API.Controllers
             ApiResponse<GetByUsernameResponse> apiResponse = await _mediator.Send(getByUsernameRequest);
             return Ok(apiResponse);
         }
+
+        [HttpPost("{userId}/follow/{recipientId}")]
+        public async Task<IActionResult> FollowUser([FromRoute] FollowUserRequest followUserRequest)
+        {
+            ApiResponse<FollowUserResponse> apiResponse = await _mediator.Send(followUserRequest);
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+
     }
 }
 
