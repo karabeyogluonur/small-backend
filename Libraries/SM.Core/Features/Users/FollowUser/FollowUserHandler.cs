@@ -24,7 +24,7 @@ namespace SM.Core.Features.Users.FollowUser
                 throw new UnauthorizedAccessException("You are not authorized for this user.");
 
             if(request.UserId == request.RecipientId)
-                return ApiResponse<FollowUserResponse>.Error(null, "You can not follow yourself");
+                return ApiResponse<FollowUserResponse>.Error(null, "You can not follow yourself.");
 
             if (await _userService.GetUserByIdAsync(request.RecipientId) == null)
                 return ApiResponse<FollowUserResponse>.Error(null, "No user to follow found");
