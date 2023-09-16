@@ -22,13 +22,13 @@ namespace SM.Core.Features.Users.GetFollowed
         }
         public async Task<ApiResponse<GetFollowedResponse>> Handle(GetFollowedRequest request, CancellationToken cancellationToken)
         {
-            IPagedList<Follow> followeds = await _userService.GetFollowedAsync(
+            IPagedList<Follow> followees = await _userService.GetFolloweesAsync(
                 pageIndex: request.PageIndex,
                 pageSize: request.PageSize,
                 userId: request.UserId
                 );
 
-            GetFollowedResponse getFollowedResponse = _mapper.Map<GetFollowedResponse>(followeds);
+            GetFollowedResponse getFollowedResponse = _mapper.Map<GetFollowedResponse>(followees);
             return ApiResponse<GetFollowedResponse>.Successful(getFollowedResponse, "Followeds receive successful.");
         }
     }
