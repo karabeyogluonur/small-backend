@@ -12,8 +12,8 @@ using SM.Infrastructre.Persistence.Contexts;
 namespace SM.Infrastructre.Migrations
 {
     [DbContext(typeof(SMDbContext))]
-    [Migration("20230904140839_Comments")]
-    partial class Comments
+    [Migration("20230916145154_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -184,6 +184,9 @@ namespace SM.Infrastructre.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AvatarImagePath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -315,6 +318,9 @@ namespace SM.Infrastructre.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("HasReplies")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ArticleId");
@@ -352,6 +358,21 @@ namespace SM.Infrastructre.Migrations
                     b.HasIndex("CommentId");
 
                     b.ToTable("CommentReplies");
+                });
+
+            modelBuilder.Entity("SM.Core.Domain.Follow", b =>
+                {
+                    b.Property<int>("FollowerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FolloweeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FollowerId", "FolloweeId");
+
+                    b.HasIndex("FolloweeId");
+
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("SM.Core.Domain.Topic", b =>
@@ -486,6 +507,32 @@ namespace SM.Infrastructre.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("SM.Core.Domain.Follow", b =>
+                {
+                    b.HasOne("SM.Core.Domain.ApplicationUser", "Followee")
+                        .WithMany("Followee")
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("SM.Core.Domain.ApplicationUser", "Follower")
+                        .WithMany("Follower")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Followee");
+
+                    b.Navigation("Follower");
+                });
+
+            modelBuilder.Entity("SM.Core.Domain.ApplicationUser", b =>
+                {
+                    b.Navigation("Followee");
+
+                    b.Navigation("Follower");
                 });
 
             modelBuilder.Entity("SM.Core.Domain.Article", b =>
