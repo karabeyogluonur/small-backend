@@ -30,7 +30,7 @@ namespace SM.Core.Features.Users.UnfollowUser
             if (await _userService.GetUserByIdAsync(request.RecipientId) == null)
                 return ApiResponse<UnfollowUserResponse>.Error(null, "No user to unfollow found.");
 
-            Follow follow = await _userService.GetFollowAsync(request.UserId, request.RecipientId);
+            Follow follow = await _userService.GetFollowAsync(followeeId:request.RecipientId,followerId:request.UserId);
 
             if (follow == null)
                 return ApiResponse<UnfollowUserResponse>.Error(null, "You are not following this user.");

@@ -34,7 +34,7 @@ namespace SM.Core.Features.Users.FollowUser
             if (follow != null)
                 return ApiResponse<FollowUserResponse>.Error(null, "You already followed this user.");
 
-            await _userService.InsertFollowAsync(new Follow { FolloweeId = request.UserId, FollowerId = request.RecipientId });
+            await _userService.InsertFollowAsync(new Follow { FollowerId = request.UserId, FolloweeId = request.RecipientId });
 
             return ApiResponse<FollowUserResponse>.Successful(null, "The user has been successfully followed.");
 

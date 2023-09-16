@@ -39,7 +39,7 @@ namespace SM.Infrastructre.Services.Membership
             await _userManager.UpdateAsync(applicationUser);
         }
 
-        public async Task<Follow> GetFollowAsync(int followeeId, int followerId)
+        public async Task<Follow> GetFollowAsync(int followerId, int followeeId)
         {
             return await _followRepository.GetFirstOrDefaultAsync(predicate:follow => follow.FolloweeId == followeeId && follow.FollowerId == followerId);
         }
@@ -82,15 +82,15 @@ namespace SM.Infrastructre.Services.Membership
 
         public async Task<IPagedList<Follow>> GetFollowersAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            IQueryable<Follow> followers = _followRepository.GetAll(predicate:follow=>follow.FollowerId == userId,
+            IQueryable<Follow> followers = _followRepository.GetAll(predicate:follow=>follow.FolloweeId == userId,
                                                                     include:inc=>inc.Include(follow=>follow.Follower));
 
             return await followers.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
         }
 
-        public async Task<IPagedList<Follow>> GetFollowedAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
+        public async Task<IPagedList<Follow>> GetFolloweesAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
-            IQueryable<Follow> followers = _followRepository.GetAll(predicate: follow => follow.FolloweeId == userId,
+            IQueryable<Follow> followers = _followRepository.GetAll(predicate: follow => follow.FollowerId == userId,
                                                                      include: inc => inc.Include(follow => follow.Followee));
 
             return await followers.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
