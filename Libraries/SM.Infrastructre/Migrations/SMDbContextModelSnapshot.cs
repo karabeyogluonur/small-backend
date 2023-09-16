@@ -508,13 +508,13 @@ namespace SM.Infrastructre.Migrations
 
             modelBuilder.Entity("SM.Core.Domain.Follow", b =>
                 {
-                    b.HasOne("SM.Core.Domain.ApplicationUser", "Follower")
+                    b.HasOne("SM.Core.Domain.ApplicationUser", "Followee")
                         .WithMany("Followee")
                         .HasForeignKey("FolloweeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("SM.Core.Domain.ApplicationUser", "Followee")
+                    b.HasOne("SM.Core.Domain.ApplicationUser", "Follower")
                         .WithMany("Follower")
                         .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Restrict)

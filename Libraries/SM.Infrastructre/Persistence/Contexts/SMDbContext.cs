@@ -28,14 +28,14 @@ namespace SM.Infrastructre.Persistence.Contexts
 
             builder.Entity<Follow>()
                 .HasOne(u => u.Followee)
-                .WithMany(u => u.Follower)
-                .HasForeignKey(u => u.FollowerId)
+                .WithMany(u => u.Followee)
+                .HasForeignKey(u => u.FolloweeId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Follow>()
                 .HasOne(u => u.Follower)
-                .WithMany(u => u.Followee)
-                .HasForeignKey(u => u.FolloweeId)
+                .WithMany(u => u.Follower)
+                .HasForeignKey(u => u.FollowerId)
                 .OnDelete(DeleteBehavior.Restrict);
             #endregion
 
