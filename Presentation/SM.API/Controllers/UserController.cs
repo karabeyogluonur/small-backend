@@ -1,6 +1,8 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
+using SM.Core.Features.Users.CheckFollow;
 using SM.Core.Features.Users.FollowUser;
 using SM.Core.Features.Users.GetByUsername;
 using SM.Core.Features.Users.GetFollowed;
@@ -27,6 +29,7 @@ namespace SM.API.Controllers
         }
 
         [HttpPost("{userId}/follow/{recipientId}")]
+        [Authorize]
         public async Task<IActionResult> FollowUser([FromRoute] FollowUserRequest followUserRequest)
         {
             ApiResponse<FollowUserResponse> apiResponse = await _mediator.Send(followUserRequest);
@@ -36,6 +39,7 @@ namespace SM.API.Controllers
                 return BadRequest(apiResponse);
         }
         [HttpPost("{userId}/unfollow/{recipientId}")]
+        [Authorize]
         public async Task<IActionResult> UnfollowUser([FromRoute] UnfollowUserRequest unfollowUserRequest)
         {
             ApiResponse<UnfollowUserResponse> apiResponse = await _mediator.Send(unfollowUserRequest);
@@ -57,6 +61,15 @@ namespace SM.API.Controllers
         public async Task<IActionResult> GetFollowed([FromRoute] GetFollowedRequest getFollowedRequest)
         {
             ApiResponse<GetFollowedResponse> apiResponse = await _mediator.Send(getFollowedRequest);
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+        [HttpGet("{userId}/check-follow/{recipientId}")]
+        public async Task<IActionResult> CheckFollow([FromRoute] CheckFollowRequest checkFollowRequest)
+        {
+            ApiResponse<CheckFollowResponse> apiResponse = await _mediator.Send(checkFollowRequest);
             if (apiResponse.Success)
                 return Ok(apiResponse);
             else
