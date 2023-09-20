@@ -19,13 +19,13 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: Restore dependencies
-         run: dotnet restore
+        run: dotnet restore
       
       - name: Build
-         run: dotnet build --no-restore
+        run: dotnet build --no-restore
 
       - name: Publish .NET project
-         run: |
+        run: |
           cd ${{ github.workspace }}
           dotnet publish --configuration Release --output ./small-backend .
           
