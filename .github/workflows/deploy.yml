@@ -11,30 +11,24 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
+    
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 7.0.x
 
-      - name: Install .NET Core 7.0.11 framework
-        run: |
-          sudo apt-get install -y dotnet-runtime-7.0
+      - name: Restore dependencies
+         run: dotnet restore
+      
+      - name: Build
+         run: dotnet build --no-restore
 
-      - name: Install .NET 7
-        run: |
-          wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-          sudo dpkg -i packages-microsoft-prod.deb
-          sudo apt-get update
-          sudo apt-get install -y dotnet-sdk-7.0
-          dotnet --version
-
-      - name: Copy missing framework
-        run: |
-          mkdir -p ~/.dotnet/shared/Microsoft.NETCore.App/7.0.11/
-          cp -r dotnet_frameworks/. ~/.dotnet/shared/Microsoft.NETCore.App/7.0.11/
-
-      - name: Build .NET project
-        run: |
+      - name: Publish .NET project
+         run: |
           cd ${{ github.workspace }}
           dotnet publish --configuration Release --output ./small-backend .
-
+          
       - name: Copy files using SCP
         run: |
           mkdir -p ~/.ssh
