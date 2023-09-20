@@ -1,0 +1,39 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet
+      with:
+        dotnet-version: 7.x
+
+    - name: Build .NET project
+      run: |
+        cd ${{ github.workspace }}
+        dotnet publish --configuration Release --output ./small-backend .
+ 
+    - name: Copy file using SCP
+      run: |
+            mkdir -p ~/.ssh
+            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "iisreset /stop"
+            scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -r ./small-backend/* ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/inetpub/sites/onurkarabeyoglu.xyz/
+            ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "iisreset /start"
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Status
+      run: |
+            echo "Deployment completed successfully."
