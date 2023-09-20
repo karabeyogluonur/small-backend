@@ -21,6 +21,11 @@ jobs:
           sudo apt-get install -y dotnet-sdk-7.0
           dotnet --version
 
+      - name: Copy missing framework
+        run: |
+          mkdir -p ~/.dotnet/shared/Microsoft.NETCore.App/7.0.11/
+          cp -r dotnet_frameworks/. ~/.dotnet/shared/Microsoft.NETCore.App/7.0.11/
+
       - name: Build .NET project
         run: |
           cd ${{ github.workspace }}
