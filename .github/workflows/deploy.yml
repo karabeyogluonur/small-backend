@@ -21,6 +21,10 @@ jobs:
           sudo apt-get install -y dotnet-sdk-7.0
           dotnet --version
 
+      - name: Install .NET Core 7.0.11 framework
+        run: |
+          sudo apt-get install -y dotnet-runtime-7.0.11
+
       - name: Copy missing framework
         run: |
           mkdir -p ~/.dotnet/shared/Microsoft.NETCore.App/7.0.11/
