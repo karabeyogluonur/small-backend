@@ -55,7 +55,7 @@ app.ConfigureExceptionHandler<Program>();
 app.UseStaticFiles();
 app.MapGet("/", async context =>
 {
-    await context.Response.WriteAsync("Welcome to Small.");
+    await context.Response.WriteAsync("Welcome to Small. Smaller then medium.");
 });
 app.UseCors("Member");
 app.UseHttpsRedirection();
