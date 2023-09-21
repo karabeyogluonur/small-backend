@@ -12,6 +12,7 @@ using SM.Core.Features.Auth.RefreshToken;
 using SM.Core.Features.Auth.Register;
 using SM.Core.Features.Comments.GetReply;
 using SM.Core.Features.Comments.InsertReply;
+using SM.Core.Features.Profiles.GetDraft;
 using SM.Core.Features.Topics.GetAllTopic;
 using SM.Core.Features.Topics.SearchTopic;
 using SM.Core.Features.Users.GetArticle;
@@ -104,6 +105,9 @@ namespace SM.Core.Mappers.AutoMapper
 
             CreateMap<IPagedList<Article>, GetArticleResponse>().ForMember(dest => dest.Items,
                 opt => opt.MapFrom(src => src.Items)).ReverseMap();
+
+            CreateMap<IPagedList<Article>, GetDraftResponse>().ForMember(dest => dest.Items,
+               opt => opt.MapFrom(src => src.Items)).ReverseMap();
 
             #endregion
 

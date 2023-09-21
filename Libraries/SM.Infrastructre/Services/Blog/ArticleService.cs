@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SM.Infrastructre.Services.Blog
 {
-	public class ArticleService : IArticleService
+    public class ArticleService : IArticleService
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IRepository<Article> _articleRepository;
@@ -69,6 +69,15 @@ namespace SM.Infrastructre.Services.Blog
                 include:inc=>inc.Include(article=>article.Topics).Include(article=>article.Author),
                 disableTracking:false);
 
+        }
+
+        public async Task<IPagedList<Article>> GetDraftsByUserIdAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
+        {
+            IQueryable<Article> articles = _articleRepository.GetAll(predicate:article=>article.AuthorId == userId && article.Published == false,
+                                                                     include:inc=>inc.Include(article=>article.Author)
+                                                                                     .Include(article=>article.Topics));
+
+            return await articles.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
         }
 
         public async Task<int> InsertArticleAsync(Article article)

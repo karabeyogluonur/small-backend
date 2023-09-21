@@ -21,6 +21,10 @@ namespace SM.Core.Interfaces.Services.Blog
             int pageIndex = 0,
             int pageSize = int.MaxValue
             );
+        Task<IPagedList<Article>> GetDraftsByUserIdAsync(
+            int userId,
+            int pageIndex = 0,
+            int pageSize = int.MaxValue);
 
         Task<Article> GetArticleByIdAsync(int articleId);
 
