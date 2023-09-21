@@ -56,6 +56,7 @@
     <None Remove="Features\Profiles\GetDraft\" />
     <None Remove="Features\Articles\LikeArticle\" />
     <None Remove="Features\Articles\UnlikeArticle\" />
+    <None Remove="Features\Articles\CheckArticleLike\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -96,5 +97,6 @@
     <Folder Include="Features\Profiles\GetDraft\" />
     <Folder Include="Features\Articles\LikeArticle\" />
     <Folder Include="Features\Articles\UnlikeArticle\" />
+    <Folder Include="Features\Articles\CheckArticleLike\" />
   </ItemGroup>
 </Project>
