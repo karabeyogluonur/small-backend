@@ -28,9 +28,16 @@ namespace SM.Core.Common.Enums.Collections
 
         GetFollower = 10,
         GetFollewed = 10,
-        GetArticle = 5
+        GetArticle = 5,
 
         #endregion
+
+        #region Profile
+
+        GetDraft = 5,
+
+        #endregion
+
     }
 }
 

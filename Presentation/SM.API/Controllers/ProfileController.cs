@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
+using SM.Core.Features.Profiles.GetDraft;
 using SM.Core.Features.Profiles.Me;
 using SM.Core.Features.Profiles.UploadProfileImage;
 
@@ -34,6 +35,16 @@ namespace SM.API.Controllers
         public async Task<IActionResult> UploadAvatarImage([FromForm]UploadAvatarImageRequest UploadAvatarImageRequest)
         {
             ApiResponse<UploadAvatarImageResponse> apiResponse = await _mediator.Send(UploadAvatarImageRequest);
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+        [HttpGet("drafts")]
+        public async Task<IActionResult> GetDrafts(GetDraftRequest getDraftRequest)
+        {
+            ApiResponse<GetDraftResponse> apiResponse = await _mediator.Send(getDraftRequest);
 
             if (apiResponse.Success)
                 return Ok(apiResponse);
