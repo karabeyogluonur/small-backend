@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
+using SM.Core.Features.Articles.CheckArticleLike;
 using SM.Core.Features.Articles.GetAllArticle;
 using SM.Core.Features.Articles.GetArticleById;
 using SM.Core.Features.Articles.GetComment;
@@ -147,6 +148,16 @@ namespace SM.API.Controllers
         public async Task<IActionResult> UnlikeArticle(UnlikeArticleRequest unlikeArticleRequest)
         {
             ApiResponse<UnlikeArticleResponse> apiResponse = await _mediator.Send(unlikeArticleRequest);
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+        [HttpPost("{articleId}/check-like")]
+        [Authorize]
+        public async Task<IActionResult> CheckArticleLike(CheckArticleLikeRequest checkArticleLikeRequest)
+        {
+            ApiResponse<CheckArticleLikeResponse> apiResponse = await _mediator.Send(checkArticleLikeRequest);
             if (apiResponse.Success)
                 return Ok(apiResponse);
             else
