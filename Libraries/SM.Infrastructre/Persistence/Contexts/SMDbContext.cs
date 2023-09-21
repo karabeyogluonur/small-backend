@@ -18,6 +18,7 @@ namespace SM.Infrastructre.Persistence.Contexts
         public DbSet<Comment> Comment { get; set; }
         public DbSet<CommentReply> CommentReplies { get; set; }
         public DbSet<Follow> Follows { get; set; }
+        public DbSet<ArticleLike> ArticleLikes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -37,6 +38,25 @@ namespace SM.Infrastructre.Persistence.Contexts
                 .WithMany(u => u.Follower)
                 .HasForeignKey(u => u.FollowerId)
                 .OnDelete(DeleteBehavior.Restrict);
+            #endregion
+
+            #region Article Like
+
+            builder.Entity<ArticleLike>()
+                .HasKey(k => new { k.AuthorId, k.ArticleId });
+
+            builder.Entity<ArticleLike>()
+                .HasOne(u => u.Article)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(u => u.ArticleId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ArticleLike>()
+                .HasOne(u => u.Author)
+                .WithMany(u => u.ArticleLikes)
+                .HasForeignKey(u => u.AuthorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             #endregion
 
             base.OnModelCreating(builder);

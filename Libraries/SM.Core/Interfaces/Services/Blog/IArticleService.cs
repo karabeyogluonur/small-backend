@@ -33,6 +33,13 @@ namespace SM.Core.Interfaces.Services.Blog
         Task<int> InsertArticleAsync(Article article);
 
         void UpdateArticle(Article article);
+
+        #region Like Operation
+
+        Task InsertArticleLikeAsync(ArticleLike articleLike);
+        Task<ArticleLike> GetArticleLikeAsync(int authorId, int articleId);
+
+        #endregion
     }
 }
 
