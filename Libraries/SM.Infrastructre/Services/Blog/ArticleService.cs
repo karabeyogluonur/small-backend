@@ -31,6 +31,12 @@ namespace SM.Infrastructre.Services.Blog
            
         }
 
+        public void DeleteArticleLike(ArticleLike articleLike)
+        {
+            _articleLikeRepository.Delete(articleLike);
+            _unitOfWork.SaveChanges();
+        }
+
         public async Task<IPagedList<Article>> GetAllArticlesAsync(
             List<int> topicIds = null,
             int userId = 0,

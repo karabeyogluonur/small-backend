@@ -55,6 +55,7 @@
     <None Remove="Features\Users\GetArticle\" />
     <None Remove="Features\Profiles\GetDraft\" />
     <None Remove="Features\Articles\LikeArticle\" />
+    <None Remove="Features\Articles\UnlikeArticle\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -94,5 +95,6 @@
     <Folder Include="Features\Users\GetArticle\" />
     <Folder Include="Features\Profiles\GetDraft\" />
     <Folder Include="Features\Articles\LikeArticle\" />
+    <Folder Include="Features\Articles\UnlikeArticle\" />
   </ItemGroup>
 </Project>
