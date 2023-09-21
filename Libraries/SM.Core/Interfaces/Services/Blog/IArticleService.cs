@@ -8,6 +8,7 @@ namespace SM.Core.Interfaces.Services.Blog
 	{
         Task<IPagedList<Article>> GetAllArticlesAsync(
             List<int> topicIds = null,
+            int userId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
             bool showNonPublished = false,
