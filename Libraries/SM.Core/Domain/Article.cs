@@ -17,6 +17,7 @@ namespace SM.Core.Domain
 		public ApplicationUser Author { get; set; }
 		public ICollection<Topic> Topics { get; set; }
 		public ICollection<Comment> Comments { get; set; }
+		public ICollection<ArticleLike> Likes { get; set; }
 	}
 }
 

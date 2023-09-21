@@ -12,10 +12,12 @@ namespace SM.Infrastructre.Services.Blog
 	{
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IRepository<Article> _articleRepository;
+        private readonly IRepository<ArticleLike> _articleLikeRepository;
 		public ArticleService(IUnitOfWork unitOfWork)
 		{
 			_unitOfWork = unitOfWork;
 			_articleRepository = _unitOfWork.GetRepository<Article>();
+            _articleLikeRepository = _unitOfWork.GetRepository<ArticleLike>();
 		}
 
         public async Task DeleteAllTopicsAsync(int articleId)
@@ -71,6 +73,11 @@ namespace SM.Infrastructre.Services.Blog
 
         }
 
+        public async Task<ArticleLike> GetArticleLikeAsync(int authorId, int articleId)
+        {
+            return await _articleLikeRepository.GetFirstOrDefaultAsync(predicate:articleLike => articleLike.ArticleId == articleId && articleLike.AuthorId == authorId);
+        }
+
         public async Task<IPagedList<Article>> GetDraftsByUserIdAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             IQueryable<Article> articles = _articleRepository.GetAll(predicate:article=>article.AuthorId == userId && article.Published == false,
@@ -92,6 +99,13 @@ namespace SM.Infrastructre.Services.Blog
 
             return article.Id;
             
+        }
+
+        public async Task InsertArticleLikeAsync(ArticleLike articleLike)
+        {
+            articleLike.CreatedDate = DateTime.Now;
+            await _articleLikeRepository.InsertAsync(articleLike);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<IPagedList<Article>> SearchArticlesAsync(

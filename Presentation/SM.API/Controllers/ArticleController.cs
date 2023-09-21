@@ -7,6 +7,7 @@ using SM.Core.Features.Articles.GetArticleById;
 using SM.Core.Features.Articles.GetComment;
 using SM.Core.Features.Articles.InsertArticle;
 using SM.Core.Features.Articles.InsertComment;
+using SM.Core.Features.Articles.LikeArticle;
 using SM.Core.Features.Articles.PublishArticle;
 using SM.Core.Features.Articles.SearchArticle;
 using SM.Core.Features.Articles.UpdateArticle;
@@ -121,6 +122,19 @@ namespace SM.API.Controllers
         {
             ApiResponse<GetCommentResponse> apiResponse = await _mediator.Send(getCommentRequest);
 
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+        #endregion
+
+        #region Likes
+        [HttpPost("{articleId}/like")]
+        [Authorize]
+        public async Task<IActionResult> LikeArticle(LikeArticleRequest likeArticleRequest)
+        {
+            ApiResponse<LikeArticleResponse> apiResponse = await _mediator.Send(likeArticleRequest);
             if (apiResponse.Success)
                 return Ok(apiResponse);
             else

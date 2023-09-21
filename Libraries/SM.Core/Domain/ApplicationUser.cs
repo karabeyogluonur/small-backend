@@ -18,6 +18,8 @@ namespace SM.Core.Domain
 
         public ICollection<Follow> Follower { get; set; }
         public ICollection<Follow> Followee { get; set; }
+
+        public ICollection<ArticleLike> ArticleLikes { get; set; }
     }
 }
  
