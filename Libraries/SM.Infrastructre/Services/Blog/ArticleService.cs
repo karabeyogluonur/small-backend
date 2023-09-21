@@ -31,16 +31,21 @@ namespace SM.Infrastructre.Services.Blog
 
         public async Task<IPagedList<Article>> GetAllArticlesAsync(
             List<int> topicIds = null,
+            int userId = 0,
             int pageIndex = 0,
             int pageSize = int.MaxValue,
             bool showNonPublished = false,
             bool includeTopics = true,
-            bool includeAuthor = true)
+            bool includeAuthor = true
+            )
         {
             IQueryable<Article> articles = _articleRepository.GetAll();
 
             if (topicIds != null)
                 articles = articles.Where(article => article.Topics.Any(topic => topicIds.Contains(topic.Id)));
+
+            if (userId > 0)
+                articles = articles.Where(articles => articles.AuthorId == userId);
 
             if (!showNonPublished)
                 articles = articles.Where(article => article.Published == true);

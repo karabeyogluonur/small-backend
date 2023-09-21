@@ -52,6 +52,7 @@
     <None Remove="Features\Users\GetFollower\" />
     <None Remove="Features\Users\GetFollowed\" />
     <None Remove="Features\Users\CheckFollow\" />
+    <None Remove="Features\Users\GetArticle\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -88,5 +89,6 @@
     <Folder Include="Features\Users\GetFollower\" />
     <Folder Include="Features\Users\GetFollowed\" />
     <Folder Include="Features\Users\CheckFollow\" />
+    <Folder Include="Features\Users\GetArticle\" />
   </ItemGroup>
 </Project>

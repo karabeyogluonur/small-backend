@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
 using SM.Core.Features.Users.CheckFollow;
 using SM.Core.Features.Users.FollowUser;
+using SM.Core.Features.Users.GetArticle;
 using SM.Core.Features.Users.GetByUsername;
 using SM.Core.Features.Users.GetFollowed;
 using SM.Core.Features.Users.GetFollower;
@@ -75,7 +76,15 @@ namespace SM.API.Controllers
             else
                 return BadRequest(apiResponse);
         }
-
+        [HttpGet("{userId}/articles")]
+        public async Task<IActionResult> GetArticles(GetArticleRequest getArticleRequest)
+        {
+            ApiResponse<GetArticleResponse> apiResponse = await _mediator.Send(getArticleRequest);
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
     }
 }
 
