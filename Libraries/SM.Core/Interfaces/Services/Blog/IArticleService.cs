@@ -38,6 +38,7 @@ namespace SM.Core.Interfaces.Services.Blog
 
         Task InsertArticleLikeAsync(ArticleLike articleLike);
         Task<ArticleLike> GetArticleLikeAsync(int authorId, int articleId);
+        void DeleteArticleLike(ArticleLike articleLike);
 
         #endregion
     }

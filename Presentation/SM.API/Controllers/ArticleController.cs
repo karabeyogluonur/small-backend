@@ -10,6 +10,7 @@ using SM.Core.Features.Articles.InsertComment;
 using SM.Core.Features.Articles.LikeArticle;
 using SM.Core.Features.Articles.PublishArticle;
 using SM.Core.Features.Articles.SearchArticle;
+using SM.Core.Features.Articles.UnlikeArticle;
 using SM.Core.Features.Articles.UpdateArticle;
 using SM.Core.Features.Articles.UpdateTopic;
 using SM.Core.Features.Articles.UploadArticleImage;
@@ -135,6 +136,17 @@ namespace SM.API.Controllers
         public async Task<IActionResult> LikeArticle(LikeArticleRequest likeArticleRequest)
         {
             ApiResponse<LikeArticleResponse> apiResponse = await _mediator.Send(likeArticleRequest);
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+
+        [HttpPost("{articleId}/unlike")]
+        [Authorize]
+        public async Task<IActionResult> UnlikeArticle(UnlikeArticleRequest unlikeArticleRequest)
+        {
+            ApiResponse<UnlikeArticleResponse> apiResponse = await _mediator.Send(unlikeArticleRequest);
             if (apiResponse.Success)
                 return Ok(apiResponse);
             else
