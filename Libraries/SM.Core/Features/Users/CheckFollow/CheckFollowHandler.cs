@@ -25,14 +25,14 @@ namespace SM.Core.Features.Users.CheckFollow
                 return ApiResponse<CheckFollowResponse>.Error(null, "You can not follow yourself.");
 
             if (await _userService.GetUserByIdAsync(request.RecipientId) == null)
-                return ApiResponse<CheckFollowResponse>.Error(null, "User not found. Id : " + request.RecipientId);
+                return ApiResponse<CheckFollowResponse>.Error(null,"The user to be followed could not be found in the system.");
 
             Follow follow = await _userService.GetFollowAsync(followeeId: request.RecipientId, followerId: request.UserId);
 
             if (follow != null)
-                return ApiResponse<CheckFollowResponse>.Error(new CheckFollowResponse { isFollow = true }, "You are following this user.");
+                return ApiResponse<CheckFollowResponse>.Successful(new CheckFollowResponse { isFollow = true }, "You are following this user.");
             else
-                return ApiResponse<CheckFollowResponse>.Error(null, "You are not following this user.");
+                return ApiResponse<CheckFollowResponse>.Successful(new CheckFollowResponse { isFollow = false }, "You are not following this user.");
         }
     }
 }
