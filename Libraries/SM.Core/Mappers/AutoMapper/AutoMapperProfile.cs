@@ -70,8 +70,9 @@ namespace SM.Core.Mappers.AutoMapper
             CreateMap<Article, UpdateArticleResponse>().ReverseMap();
 
             CreateMap<ArticleLike, ArticleLikeDTO>().ReverseMap();
+
             CreateMap<IPagedList<ArticleLike>, LikeHistoryResponse>().ForMember(dest => dest.Items,
-                opt => opt.MapFrom(src => src.Items)).ReverseMap();
+                opt => opt.MapFrom(src => src.Items.Select(article=> article.Article))).ReverseMap();
 
             #endregion
 

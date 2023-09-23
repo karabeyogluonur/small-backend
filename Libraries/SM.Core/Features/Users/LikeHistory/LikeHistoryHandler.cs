@@ -3,6 +3,7 @@ using AutoMapper;
 using MediatR;
 using SM.Core.Common;
 using SM.Core.Domain;
+using SM.Core.DTOs.Blog;
 using SM.Core.Features.Users.GetFollower;
 using SM.Core.Interfaces.Collections;
 using SM.Core.Interfaces.Services.Blog;
