@@ -14,6 +14,7 @@ namespace SM.Core.Common.Enums.Collections
 
         GetAllArticle = 10,
         SearchArticle = 5,
+        LikeHistory=5,
 
         #endregion
 

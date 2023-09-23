@@ -84,6 +84,18 @@ namespace SM.Infrastructre.Services.Blog
             return await _articleLikeRepository.GetFirstOrDefaultAsync(predicate:articleLike => articleLike.ArticleId == articleId && articleLike.AuthorId == authorId);
         }
 
+        public async Task<IPagedList<ArticleLike>> GetArticleLikesByUserIdAsync(int userId, int pageIndex = 0,int pageSize = int.MaxValue)
+        {
+            IQueryable<ArticleLike> articleLikes = _articleLikeRepository.GetAll(predicate: articleLike => articleLike.AuthorId == userId,
+                                                                                 include: inc => inc
+                                                                                 .Include(articleLike => articleLike.Article).ThenInclude(article=>article.Author)
+                                                                                 .Include(articleLike=> articleLike.Article).ThenInclude(article=>article.Topics)
+                                                                                                                                                ,
+                                                                                 orderBy:orderby=>orderby.OrderByDescending(articleLike=>articleLike.CreatedDate));
+
+            return await articleLikes.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
+        }
+
         public async Task<IPagedList<Article>> GetDraftsByUserIdAsync(int userId, int pageIndex = 0, int pageSize = int.MaxValue)
         {
             IQueryable<Article> articles = _articleRepository.GetAll(predicate:article=>article.AuthorId == userId && article.Published == false,
@@ -145,6 +157,7 @@ namespace SM.Infrastructre.Services.Blog
 
             _unitOfWork.SaveChanges();
         }
+        
     }
 }
 
