@@ -16,7 +16,7 @@ namespace SM.Core.Features.Users.LikeHistory
 
         public int TotalPages { get; set; }
 
-        public List<ArticleLikeDTO> Items { get; set; }
+        public List<ArticleDTO> Items { get; set; }
 
         public bool HasPreviousPage { get; set; }
 
