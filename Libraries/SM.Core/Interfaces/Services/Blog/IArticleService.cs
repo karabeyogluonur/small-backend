@@ -39,6 +39,7 @@ namespace SM.Core.Interfaces.Services.Blog
         Task InsertArticleLikeAsync(ArticleLike articleLike);
         Task<ArticleLike> GetArticleLikeAsync(int authorId, int articleId);
         void DeleteArticleLike(ArticleLike articleLike);
+        Task<IPagedList<ArticleLike>> GetArticleLikesByUserIdAsync(int userId, int pageIndex = 0,int pageSize = int.MaxValue);
 
         #endregion
     }

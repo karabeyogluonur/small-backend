@@ -18,6 +18,7 @@ using SM.Core.Features.Topics.SearchTopic;
 using SM.Core.Features.Users.GetArticle;
 using SM.Core.Features.Users.GetFollowed;
 using SM.Core.Features.Users.GetFollower;
+using SM.Core.Features.Users.LikeHistory;
 using SM.Core.Interfaces.Collections;
 
 namespace SM.Core.Mappers.AutoMapper
@@ -67,6 +68,10 @@ namespace SM.Core.Mappers.AutoMapper
 
             CreateMap<Article, UpdateArticleRequest>().ForMember(article => article.ArticleId, opt => opt.Ignore()).ReverseMap();
             CreateMap<Article, UpdateArticleResponse>().ReverseMap();
+
+            CreateMap<ArticleLike, ArticleLikeDTO>().ReverseMap();
+            CreateMap<IPagedList<ArticleLike>, LikeHistoryResponse>().ForMember(dest => dest.Items,
+                opt => opt.MapFrom(src => src.Items)).ReverseMap();
 
             #endregion
 
