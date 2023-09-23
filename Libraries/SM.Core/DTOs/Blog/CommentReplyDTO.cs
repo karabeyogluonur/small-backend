@@ -8,7 +8,8 @@ namespace SM.Core.DTOs.Blog
 		public int Id { get; set; }
 		public int CommentId { get; set; }
 		public string Content { get; set; }
-		public ApplicationUserDTO Author { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public ApplicationUserDTO Author { get; set; }
 	}
 }
 
