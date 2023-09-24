@@ -86,5 +86,9 @@ namespace SM.Infrastructre.Services.Media
             string path = Path.Combine(_webHostEnvironment.WebRootPath, "resources", registeredFileType.ToString());
             File.Delete(Path.Combine(path, fileName));
         }
+        public async Task DeleteAsync(string fullPath)
+        {
+            File.Delete(fullPath);
+        }
     }
 }
