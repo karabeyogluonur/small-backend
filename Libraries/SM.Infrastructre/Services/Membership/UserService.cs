@@ -32,7 +32,7 @@ namespace SM.Infrastructre.Services.Membership
         {
             ApplicationUser applicationUser = await _userManager.FindByIdAsync(userId.ToString());
 
-            if (applicationUser.AvatarImagePath != null)
+            if (!string.IsNullOrEmpty(applicationUser.AvatarImagePath))
                 await _fileService.DeleteAsync(applicationUser.AvatarImagePath);
 
             applicationUser.AvatarImagePath = avatarImageName;
