@@ -13,6 +13,6 @@ namespace SM.Core.Interfaces.Services.Media
     {
         Task<FileInformationDTO> UploadAsync(IFormFile formFile, RegisteredFileType registeredFileType);
         Task DeleteAsync(string fileName, RegisteredFileType registeredFileType);
-        Task DeleteAsync(string fullPath);
+        Task DeleteAsync(string path);
     }
 }

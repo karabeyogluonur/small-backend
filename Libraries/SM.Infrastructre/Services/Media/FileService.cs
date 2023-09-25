@@ -61,7 +61,7 @@ namespace SM.Infrastructre.Services.Media
                 string regulatedFileName = FileHelper.CharacterRegularity(oldFileName);
 
                 var files = Directory.GetFiles(path, regulatedFileName + "*");
-                return FileHelper.CharacterRegularity(DateTime.Now.ToString()) + "-" + regulatedFileName + extension;
+                return FileHelper.CharacterRegularity(DateTime.Now.ToString()).Replace("-","") + "-" + regulatedFileName + extension;
             });
 
         }
@@ -86,8 +86,9 @@ namespace SM.Infrastructre.Services.Media
             string path = Path.Combine(_webHostEnvironment.WebRootPath, "resources", registeredFileType.ToString());
             File.Delete(Path.Combine(path, fileName));
         }
-        public async Task DeleteAsync(string fullPath)
+        public async Task DeleteAsync(string path)
         {
+            string fullPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
             File.Delete(fullPath);
         }
     }
