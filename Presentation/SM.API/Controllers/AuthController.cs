@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SM.Core.Common;
+using SM.Core.Features.Auth.CheckUsername;
 using SM.Core.Features.Auth.ForgotPassword;
 using SM.Core.Features.Auth.Login;
 using SM.Core.Features.Auth.Logout;
@@ -118,6 +119,17 @@ namespace SM.API.Controllers
                 return BadRequest(apiResponse);
         }
 
+        [HttpPost("check-username")]
+        public async Task<IActionResult> CheckUsername(CheckUsernameRequest checkUsernameRequest)
+        {
+            ApiResponse<CheckUsernameResponse> apiResponse = await _mediator.Send(checkUsernameRequest);
+
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+
         private void AddRefreshTokenToCookie(DateTime expiration, string refreshToken)
         {
             CookieOptions cookieOptions = new CookieOptions();
@@ -128,5 +140,7 @@ namespace SM.API.Controllers
 
             Response.Cookies.Append("refreshToken", refreshToken, cookieOptions);
         }
+
+        
     }
 }

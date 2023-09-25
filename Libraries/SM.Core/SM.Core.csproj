@@ -58,6 +58,7 @@
     <None Remove="Features\Articles\UnlikeArticle\" />
     <None Remove="Features\Articles\CheckArticleLike\" />
     <None Remove="Features\Users\LikeHistory\" />
+    <None Remove="Features\Auth\CheckUsername\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\Collections\" />
@@ -100,5 +101,6 @@
     <Folder Include="Features\Articles\UnlikeArticle\" />
     <Folder Include="Features\Articles\CheckArticleLike\" />
     <Folder Include="Features\Users\LikeHistory\" />
+    <Folder Include="Features\Auth\CheckUsername\" />
   </ItemGroup>
 </Project>
