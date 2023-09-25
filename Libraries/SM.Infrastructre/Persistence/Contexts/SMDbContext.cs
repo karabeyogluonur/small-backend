@@ -19,6 +19,7 @@ namespace SM.Infrastructre.Persistence.Contexts
         public DbSet<CommentReply> CommentReplies { get; set; }
         public DbSet<Follow> Follows { get; set; }
         public DbSet<ArticleLike> ArticleLikes { get; set; }
+        public DbSet<SearchKeyword> SearchKeywords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

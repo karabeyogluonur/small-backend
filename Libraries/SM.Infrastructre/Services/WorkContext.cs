@@ -44,12 +44,12 @@ namespace SM.Infrastructre.Services
             AuthenticateResult authenticateResult = await _httpContextAccessor.HttpContext.AuthenticateAsync(JwtBearerDefaults.AuthenticationScheme);
 
             if (!authenticateResult.Succeeded)
-                throw new UnauthorizedAccessException();
+                return 0;
 
             Claim? claim = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier);
 
             if (claim == null)
-                throw new UnauthorizedAccessException();
+                return 0;
 
             _cachedUserId = Convert.ToInt32(claim.Value);
 
