@@ -15,6 +15,9 @@ namespace SM.Core.Interfaces.Services.Membership
         Task ChangeAvatarImageAsync(string avatarImageName, int userId);
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
         Task<ApplicationUser> GetUserByIdAsync(int userId);
+
+        #region Follow
+
         Task<Follow> GetFollowAsync(int followerId, int followeeId);
         Task<IPagedList<Follow>> GetFollowersAsync(int userId, int pageIndex = 0,
             int pageSize = int.MaxValue);
@@ -22,6 +25,22 @@ namespace SM.Core.Interfaces.Services.Membership
             int pageSize = int.MaxValue);
         Task InsertFollowAsync(Follow follow);
         void DeleteFollow(Follow follow);
+
+        #endregion
+
+        #region Search Keyword
+
+        Task<List<SearchKeyword>> GetSearchKeywordsByUserIdAsync(int userId);
+
+        Task InsertSearchKeywordAsync(SearchKeyword searchKeyword);
+
+        void UpdateSearchKeyword(SearchKeyword searchKeyword);
+
+        Task<SearchKeyword> GetSearchKeywordByKeywordAsync(int userId , string keyword);
+
+        #endregion
+
+
 
     }
 }

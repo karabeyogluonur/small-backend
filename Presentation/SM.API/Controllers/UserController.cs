@@ -9,6 +9,7 @@ using SM.Core.Features.Users.GetByUsername;
 using SM.Core.Features.Users.GetFollowed;
 using SM.Core.Features.Users.GetFollower;
 using SM.Core.Features.Users.LikeHistory;
+using SM.Core.Features.Users.RecentSearch;
 using SM.Core.Features.Users.UnfollowUser;
 
 namespace SM.API.Controllers
@@ -90,6 +91,16 @@ namespace SM.API.Controllers
         public async Task<IActionResult> LikeHistory(LikeHistoryRequest likeHistoryRequest)
         {
             ApiResponse<LikeHistoryResponse> apiResponse = await _mediator.Send(likeHistoryRequest);
+            if (apiResponse.Success)
+                return Ok(apiResponse);
+            else
+                return BadRequest(apiResponse);
+        }
+        [HttpGet("{userId}/recent-searches")]
+        [Authorize]
+        public async Task<IActionResult> RecentSearch(RecentSearchRequest recentSearchRequest)
+        {
+            ApiResponse<RecentSearchResponse> apiResponse = await _mediator.Send(recentSearchRequest);
             if (apiResponse.Success)
                 return Ok(apiResponse);
             else

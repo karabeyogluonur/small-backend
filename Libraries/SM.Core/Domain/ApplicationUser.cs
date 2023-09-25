@@ -20,6 +20,7 @@ namespace SM.Core.Domain
         public ICollection<Follow> Followee { get; set; }
 
         public ICollection<ArticleLike> ArticleLikes { get; set; }
+        public ICollection<SearchKeyword> SearchKeywords { get; set; }
     }
 }
  

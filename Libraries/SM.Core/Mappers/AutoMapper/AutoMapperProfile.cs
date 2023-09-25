@@ -115,6 +115,8 @@ namespace SM.Core.Mappers.AutoMapper
             CreateMap<IPagedList<Article>, GetDraftResponse>().ForMember(dest => dest.Items,
                opt => opt.MapFrom(src => src.Items)).ReverseMap();
 
+            CreateMap<SearchKeyword, SearchKeywordDTO>().ReverseMap();
+
             #endregion
 
 

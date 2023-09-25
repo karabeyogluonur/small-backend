@@ -18,6 +18,7 @@ namespace SM.Infrastructre.Services.Membership
         private readonly IFileService _fileService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IRepository<Follow> _followRepository;
+        private readonly IRepository<SearchKeyword> _searchKeywordRepository;
 
         public UserService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IFileService fileService, IUnitOfWork unitOfWork)
         {
@@ -26,6 +27,7 @@ namespace SM.Infrastructre.Services.Membership
             _fileService = fileService;
             _unitOfWork = unitOfWork;
             _followRepository = _unitOfWork.GetRepository<Follow>();
+            _searchKeywordRepository = _unitOfWork.GetRepository<SearchKeyword>();
         }
 
         public async Task ChangeAvatarImageAsync(string avatarImageName, int userId)
@@ -94,6 +96,33 @@ namespace SM.Infrastructre.Services.Membership
                                                                      include: inc => inc.Include(follow => follow.Followee));
 
             return await followers.ToPagedListAsync(pageIndex: pageIndex, pageSize: pageSize);
+        }
+
+        public async Task<List<SearchKeyword>> GetSearchKeywordsByUserIdAsync(int userId)
+        {
+            IQueryable<SearchKeyword> searchKeywords = _searchKeywordRepository.GetAll(predicate: searchKeyword => searchKeyword.AuthorId == userId,
+                                                                                             orderBy: order => order.OrderByDescending(searchKeywords => searchKeywords.CreatedDate));
+
+            return await searchKeywords.Take(5).ToListAsync();
+        }
+
+        public async Task InsertSearchKeywordAsync(SearchKeyword searchKeyword)
+        {      
+            searchKeyword.CreatedDate = DateTime.Now;
+            await _searchKeywordRepository.InsertAsync(searchKeyword);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public void UpdateSearchKeyword(SearchKeyword searchKeyword)
+        {
+            searchKeyword.CreatedDate = DateTime.Now;
+            _searchKeywordRepository.Update(searchKeyword);
+            _unitOfWork.SaveChanges();
+        }
+
+        public async Task<SearchKeyword> GetSearchKeywordByKeywordAsync(int userId,string keyword)
+        {
+            return await _searchKeywordRepository.GetFirstOrDefaultAsync(predicate: searchKeyword => searchKeyword.Keyword.ToLower() == keyword.ToLower());
         }
     }
 }
