@@ -69,7 +69,7 @@ namespace SM.Infrastructre.Services
             if (claim == null)
                 throw new UnauthorizedAccessException();
 
-            ApplicationUser applicationUser =  await _userManager.FindByEmailAsync(claim.Value);
+            ApplicationUser applicationUser =  await _userManager.FindByNameAsync(claim.Value);
 
             if(applicationUser == null)
                 throw new UnauthorizedAccessException();
