@@ -399,3 +399,4 @@ FodyWeavers.xsd
 
 .DS_Store
 Presentation/SM.API/appsettings.Production.json
+Presentation/SM.API/appsettings.Development.json
