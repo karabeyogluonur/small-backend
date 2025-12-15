@@ -1,41 +1,54 @@
-using SM.Core.Common.Model;
-using SM.Core.Utilities;
-using SM.Infrastructre.Utilities;
-using SM.Infrastructre.Persistence.Seeds;
-using SM.Core.Common.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using SM.Core.Common.Extensions;
+using SM.Core.Common.Model;
+using SM.Core.Utilities;
+using SM.Infrastructre.Persistence.Seeds;
+using SM.Infrastructre.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region Base services
 
 builder.Services.AddControllers();
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(setup =>
+
+builder.Services.AddSwaggerGen(options =>
 {
-    OpenApiSecurityScheme jwtSecurityScheme = new OpenApiSecurityScheme
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
-        BearerFormat = "JWT",
-        Name = "JWT Authentication",
+        Title = "SM API",
+        Version = "v1"
+    });
+
+    var securityScheme = new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.Http,
-        Scheme = JwtBearerDefaults.AuthenticationScheme,
-        Description = "Put **_ONLY_** your JWT Bearer token on textbox below!",
+        Scheme = "bearer",
+        BearerFormat = "JWT",
         Reference = new OpenApiReference
         {
-           Id = JwtBearerDefaults.AuthenticationScheme,
-           Type = ReferenceType.SecurityScheme
+            Type = ReferenceType.SecurityScheme,
+            Id = JwtBearerDefaults.AuthenticationScheme
         }
     };
 
-    setup.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    options.AddSecurityDefinition(
+        JwtBearerDefaults.AuthenticationScheme,
+        securityScheme
+    );
 
-    setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        { jwtSecurityScheme, Array.Empty<string>() }
+        {
+            securityScheme,
+            Array.Empty<string>()
+        }
     });
-
 });
 
 #endregion
@@ -47,17 +60,29 @@ builder.Services.AddInfrastructreServices(builder.Configuration);
 
 #endregion
 
-#region Cors
-builder.Services.AddCors(cors => cors.AddPolicy("Member", policy =>
-    policy.AllowCredentials()
-          .AllowAnyHeader()
-          .AllowAnyMethod()
-          .WithOrigins(builder.Configuration["CORS:AllowedOrigins"].Split(";"))));
+#region CORS
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Member", policy =>
+    {
+        policy
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials()
+            .WithOrigins(
+                builder.Configuration["CORS:AllowedOrigins"]!
+                    .Split(';', StringSplitOptions.RemoveEmptyEntries)
+            );
+    });
+});
+
 #endregion
 
 #region Email Account Options
 
-builder.Services.Configure<EmailAccountOptions>(builder.Configuration.GetSection("EmailAccount"));
+builder.Services.Configure<EmailAccountOptions>(
+    builder.Configuration.GetSection("EmailAccount"));
 
 #endregion
 
@@ -65,37 +90,36 @@ var app = builder.Build();
 
 #region Swagger
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
-#endregion
-
-#region Development
-
 if (app.Environment.IsDevelopment())
 {
-    
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 #endregion
 
-
 #region Middlewares
 
 DbInitializer.Initialize(app);
+
 app.ConfigureExceptionHandler<Program>();
+
 app.UseStaticFiles();
-app.MapGet("/", async context =>
-{
-    await context.Response.WriteAsync("Welcome to Small. Smaller then medium.");
-});
-app.UseCors("Member");
+
 app.UseHttpsRedirection();
+
+app.UseCors("Member");
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
-#endregion
+app.MapGet("/", async context =>
+{
+    await context.Response.WriteAsync("Welcome to Small. Smaller than medium.");
+});
 
+#endregion
 
 app.Run();

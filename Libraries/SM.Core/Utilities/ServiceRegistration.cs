@@ -1,4 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using SM.Core.Common.Behaviors;
@@ -19,16 +20,24 @@ namespace SM.Core.Utilities
 
             #region Automapper
 
-            services.AddAutoMapper(typeof(AutoMapperProfile));
+            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
 
             #endregion
 
             #region Validation
 
-            services.AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
-                .Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true);
+            services.AddControllers(options =>
+            {
+                options.Filters.Add<ValidationBehavior>();
+            });
 
-            services.AddControllers(options => options.Filters.Add<ValidationBehavior>());
+            services.AddFluentValidationAutoValidation();
+            services.AddValidatorsFromAssemblyContaining<LoginRequestValidator>();
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             #endregion
         }
