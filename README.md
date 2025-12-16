@@ -1,6 +1,5 @@
 # Small Backend
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/karabeyogluonur/small-backend/dotnet.yml?branch=main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET Core](https://img.shields.io/badge/.NET-10.0-purple)](https://dotnet.microsoft.com/)
 [![C#](https://img.shields.io/badge/C%23-12.0-239120)](https://learn.microsoft.com/en-us/dotnet/csharp/)
