@@ -20,7 +20,10 @@ namespace SM.Core.Utilities
 
             #region Automapper
 
-            services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<AutoMapperProfile>();
+            });
 
             #endregion
 
