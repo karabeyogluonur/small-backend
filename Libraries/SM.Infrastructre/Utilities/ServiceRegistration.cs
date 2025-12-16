@@ -35,20 +35,21 @@ namespace SM.Infrastructre.Utilities
         {
             #region Database context
 
-            services.AddDbContext<SMDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("SMDbConnection")));
+            services.AddDbContext<SMDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("SMDbConnection")));
 
             #endregion
 
             #region Repositories
 
-            services.AddScoped<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             //services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
             #endregion
 
             #region Identity
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options => {
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            {
 
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireDigit = false;
@@ -109,7 +110,7 @@ namespace SM.Infrastructre.Utilities
                         context.HandleResponse();
                         context.Response.ContentType = MediaTypeNames.Application.Json;
                         context.Response.StatusCode = 401;
-                        await context.Response.WriteAsync(JsonSerializer.Serialize(ApiResponse<object>.Error(null,"Authorization failed.")));
+                        await context.Response.WriteAsync(JsonSerializer.Serialize(ApiResponse<object>.Error(null, "Authorization failed.")));
                     }
                 };
             });
@@ -119,12 +120,12 @@ namespace SM.Infrastructre.Utilities
             #region Services
 
             services.AddTransient<ITokenService, TokenService>();
-            services.AddTransient<IAuthService,AuthService>();
-            services.AddTransient<IUserService,UserService>();
+            services.AddTransient<IAuthService, AuthService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IFileService, FileService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<ITopicService,TopicService>();
+            services.AddTransient<ITopicService, TopicService>();
             services.AddTransient<IArticleService, ArticleService>();
             services.AddTransient<ICommentService, CommentService>();
 
