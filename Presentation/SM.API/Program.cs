@@ -90,11 +90,13 @@ var app = builder.Build();
 
 #region Swagger
 
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "SM API v1");
+    c.RoutePrefix = "swagger";
+});
+
 
 #endregion
 
@@ -117,7 +119,7 @@ app.MapControllers();
 
 app.MapGet("/", async context =>
 {
-    await context.Response.WriteAsync("Welcome to Small. Smaller than medium.");
+    await context.Response.WriteAsync("Welcome to Small. Smaller than medium. (docs: /swagger)");
 });
 
 #endregion
